@@ -1,80 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <script>window.Laravel = { csrfToken: '{{ csrf_token() }}' };</script>
+    <meta name="_token" content="{{ csrf_token() }}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>insights.pics</title>
+    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="/css/Article-Clean.css">
+    <link rel="stylesheet" href="/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/css/Team-Grid.css">
+</head>
 
-        <title></title>
+<body>
+<
+<!--
+    <div id="app">
+        <div class="container">
+          <h3> Basic Routing </h3>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
+          <div class="row">
+            <div class="col-md-4">
+                <div class="list-group">
+                    <router-link to="/" class="list-group-item ">Home</router-link>
+                    <router-link to="/login" class="list-group-item ">login</router-link>
+                    <router-link to="/about" class="list-group-item ">About</router-link>
+                    <router-link to="/rooms" class="list-group-item ">Rooms</router-link>
                 </div>
-            @endif
-    </body>
+            </div>
+
+            <router-view class="view"></router-view>
+
+        </div>
+    </div>{{-- /container --}} -->
+
+    <div id="app">
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header"><a class="navbar-brand navbar-link" href="#"><i class="fa fa-picture-o"></i>Insights.pics</a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><router-link to="/">Home </router-link></li>
+                            <li><router-link to="/login">Login </router-link></li>
+                            <li><router-link to="/about">About </router-link></li>
+                            <li><router-link to="/rooms">Rooms </router-link> </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <router-view></router-view>
+    </div>{{-- /container --}}
+
+    <script src="/js/app.js"></script>
+</body>
 </html>
