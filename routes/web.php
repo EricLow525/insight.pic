@@ -17,9 +17,5 @@ Route::get('/', function () {
 
 // sample API
 Route::get('/api/rooms',function(){
-
-
-	return \App\Room::all();
-
-
+    return \App\Room::all();
 });

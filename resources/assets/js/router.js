@@ -16,7 +16,7 @@ export default new VueRouter({
       routes: [
         { path: '/', component: Home },
         { path: '/login', component: Login },
-        { path: '/about', component: About },
+        { path: '/abouts', component: About },
         { path: '/rooms', component: Room } // example of route with a seperate component
       ]
 });
