@@ -32,9 +32,9 @@ new Vue({
 
   components : {
     Home,
-    Room,
     Login,
-    About
+    About,
+    Room
   },
 
   data : {

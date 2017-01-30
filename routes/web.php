@@ -17,9 +17,18 @@ Route::get('/', function () {
 
 // sample API
 Route::get('/api/rooms',function(){
-
-
-	return \App\Room::all();
-
-
+    return \App\Room::all();
 });
+
+Route::post('/api/login', function(){
+    return 0;
+});
+
+/*
+Route::post('/api/login','Auth\AuthController@postLogin');
+Route::get('auth/token/{token}', 'Auth\AuthController@authenticate');
+
+Route::get('dashboard', function () {
+    return 'Welcome, ' . Auth::user()->name;
+})->middleware('auth');
+*/
