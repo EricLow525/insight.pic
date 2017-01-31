@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 class AuthenticatesUser
 {
     use ValidatesRequests;
@@ -69,7 +70,10 @@ class AuthenticatesUser
     protected function createToken()
     {
         $user = User::byEmail($this->request->email);
-
+        if(!$user){
+            User::create(['email'=>$this->request->email]);
+            $user=User::byEmail($this->request->email);
+        }
         return LoginToken::generateFor($user);
     }
 }
