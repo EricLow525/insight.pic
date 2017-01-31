@@ -43,7 +43,7 @@ class AuthController extends Controller
         $this->auth->invite();
 
         // Or redirect to a page with this message.
-        return 'ok';
+        return 'Please wait a moment...';
     }
 
     /**
