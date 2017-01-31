@@ -4,7 +4,9 @@ namespace App;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
-
+use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
+use GuzzleHttp\Client as GuzzleClient;
+use Mailgun\Mailgun;
 class LoginToken extends Model
 {
     /**
@@ -52,10 +54,25 @@ class LoginToken extends Model
         Mail::raw(
             "<a href='{$url}'>{$url}</a>",
             function ($message) {
-                $message->to($this->user->email)
+                $message->from('dev@starin.biz')
+                        ->to($this->user->email)
                         ->subject('Login to Laracasts');
             }
         );
+/*
+        $client = new GuzzleClient([
+            'verify' => false,
+        ]);
+        $adapter = new GuzzleAdapter($client);
+        $mg = new Mailgun("key-49b5c4bddda055041a34830181aec2dbe",$adapter);
+        $domain = "sandboxb89c04fc984b4e299760ff91a91c58e7.mailgun.org";
+//        $mg->setSslEnabled(false);
+        # Now, compose and send your message.
+        $mg->sendMessage($domain, array('from'    => 'bob@example.com',
+                                        'to'      => 'happinesseric525@gmail.com',
+                                        'subject' => 'The PHP SDK is awesome!',
+                                        'text'    => 'It is so simple to send a message.'));
+                                        */
     }
 
     /**

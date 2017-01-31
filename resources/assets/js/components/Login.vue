@@ -32,8 +32,6 @@
 
       methods : {
           Login : function(e){
-              console.log(e);
-              alert($("#email").val());
               e.preventDefault();
               $.ajax({
                   type:"POST",
