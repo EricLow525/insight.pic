@@ -22,10 +22,15 @@ class LoginToken extends Model
      */
     public static function generateFor(User $user)
     {
-        return static::create([
-            'user_id' => $user->id,
-            'token'   => str_random(50)
-        ]);
+        $token = static::where('user_id', $user->id)->first();
+        if(!$token){
+            $token = static::create([
+                'user_id' => $user->id,
+                'token'   => str_random(50)
+            ]);
+        }
+
+        return $token;
     }
 
     /**
@@ -44,7 +49,6 @@ class LoginToken extends Model
     public function send()
     {
         $url = url('/auth/token', $this->token);
-
         Mail::raw(
             "<a href='{$url}'>{$url}</a>",
             function ($message) {
