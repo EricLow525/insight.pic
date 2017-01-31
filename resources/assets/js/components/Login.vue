@@ -1,6 +1,6 @@
 <template>
     <div class="login-clean">
-        <form method="post" v-on:submit="Login">
+        <form method="post" v-on:submit.prevent="Login">
             <h2 class="sr-only">Login Form</h2>
             <div class="illustration"><i class="fa fa-envelope-o"></i></div>
             <div class="form-group">
@@ -31,8 +31,10 @@
       },
 
       methods : {
-          Login : function(){
+          Login : function(e){
+              console.log(e);
               alert($("#email").val());
+              e.preventDefault();
               $.ajax({
                   type:"POST",
                   url: "/api/login",
@@ -40,7 +42,7 @@
                   success: function(result){
                       alert(result);
                   }
-              })
+              });
           }
       }
     }

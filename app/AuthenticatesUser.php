@@ -56,9 +56,8 @@ class AuthenticatesUser
     protected function validateRequest()
     {
         $this->validate($this->request, [
-            'email' => 'required|email|exists:users'
+            'email' => 'required|email'
         ]);
-
         return $this;
     }
 

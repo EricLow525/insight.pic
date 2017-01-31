@@ -40,7 +40,7 @@ class AuthController extends Controller
      */
     public function postLogin()
     {
-      //  $this->auth->invite();
+        $this->auth->invite();
 
         // Or redirect to a page with this message.
         return 'Sweet - go check that email, yo.';
