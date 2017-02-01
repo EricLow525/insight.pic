@@ -45,8 +45,6 @@ class AuthenticatesUser
     public function login(LoginToken $token)
     {
         Auth::login($token->user);
-
-        $token->delete();
     }
 
     /**

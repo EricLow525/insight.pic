@@ -55,8 +55,8 @@ class AuthController extends Controller
     public function authenticate(LoginToken $token)
     {
         $this->auth->login($token);
-
-        return redirect('dashboard');
+        return redirect('/');
+        //  return redirect('dashboard');
     }
 
     /**

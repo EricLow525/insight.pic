@@ -31,7 +31,6 @@ class LoginToken extends Model
                 'token'   => str_random(50)
             ]);
         }
-
         return $token;
     }
 

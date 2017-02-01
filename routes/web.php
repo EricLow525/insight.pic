@@ -12,6 +12,12 @@
 */
 
 Route::get('/', function () {
+    if(Auth::check()){
+      return view('welcome',[
+          'email'=>Auth::user()->email,
+          'token'=>Auth::user()->loginTokens()->first()->token
+      ]);
+    }else
     return view('welcome');
 });
 
@@ -25,9 +31,13 @@ Route::post('/api/login','Auth\AuthController@postLogin');
 Route::get('auth/token/{token}', 'Auth\AuthController@authenticate');
 
 Route::get('logout', 'Auth\AuthController@logout');
-
+/*
 Route::get('dashboard', function () {
-    return 'Welcome, ' . Auth::user()->name;
-})->middleware('auth');
 
+    return view('welcome',[
+        'email'=>Auth::user()->email,
+        'token'=>Auth::user()->loginTokens()->first()->token
+    ]);
+})->middleware('auth');
+*/
 Route::get('/home', 'HomeController@index');
