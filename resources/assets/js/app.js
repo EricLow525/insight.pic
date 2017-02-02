@@ -16,10 +16,10 @@ import VueRouter  from 'vue-router'
 import router     from './router'
 import Vue        from 'vue'
 import Home from './components/Home.vue'
-import Room from './components/Room.vue'
 import Login from './components/Login.vue'
 import About from './components/About.vue'
 import Dashboard from './components/Dashboard.vue'
+import Room from './components/Room.vue'
 Vue.use(VueRouter)
 // lazy load components
 //const Room = (resolve) => require(['./components/Room.vue'], resolve)
