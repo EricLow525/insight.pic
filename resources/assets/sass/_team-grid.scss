@@ -163,7 +163,20 @@
     }
     img {
       width: 400px;
-      hight: 400px;
+      height: 400px;
+      display: block;
+      height: auto;
+      max-width: 100%;
+    }
+
+}
+.design {
+    width: 80%;
+    position: relative;
+    list-style: none;
+    img {
+      width: 200px;
+      height: 200px;
       display: block;
       height: auto;
       max-width: 100%;

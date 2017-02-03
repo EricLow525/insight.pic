@@ -10,3 +10,10 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// custom sass files
+@import "team-grid";
+@import "registration-form";
+@import "user";
+@import "login-form";
+@import "article-clean";
