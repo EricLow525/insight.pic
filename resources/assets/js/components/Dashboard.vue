@@ -65,23 +65,38 @@
         </div>
         <div class="container">
               <div class="row">
-
                 <div class="col-md-6">
-                    <h2>Select an image</h2>
-                    <input type="file" @change="onFileChange">
+                    <div v-if="!image.length">
+                      <div class="dropzone-area" drag-over="handleDragOver">
+                        <div class="dropzone-text">
+                          <span class="dropzone-title">Drop image here or click to select</span>
+                          
+                        </div>
+                        <input type="file" @change="onFileChange">
+                      </div>
+                    </div>
+                    <div class="dropzone-preview" v-else>
+                        <img :src="image" />
+                        <button @click="removeImage">Remove image</button>
+                    </div>
                 </div>
-  <!--                <div class="col-md-6" id="image_app">
-                      <input type="file" @change="onFileChange">
-                  </div>    -->
                   <div class="col-md-6">
                       <p>(The picture area is a dropzone to browse or drag and drop. The right side lets the pick from designs and applies to the image they uploaded.)</p>
-                      <div class="input-group">
-                          <div class="input-group-addon"><span>Text </span></div>
-                          <input class="form-control" type="text">
-                          <div class="input-group-btn">
-                              <button class="btn btn-default" type="button">Update </button>
-                          </div>
-                      </div>
+                      <h4>Insights.pics Text:</h4>
+                    <div class="input-group">
+                        <div class="input-group-addon"><span>Text </span></div>
+                        <input class="form-control" type="text">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="button">Update </button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-addon"><span>Text </span></div>
+                        <input class="form-control" type="text">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="button">Update </button>
+                        </div>
+                    </div>
                   </div>
               </div>
           </div>
@@ -108,16 +123,16 @@
               this.createImage(files[0]);
           },
           createImage(file) {
-              console.log(file);
-              var image = new Image();
+
               var reader = new FileReader();
               var vm = this;
-              console.log(vm);
-
               reader.onload = (e) => {
                   vm.image = e.target.result;
               };
               reader.readAsDataURL(file);
+          },
+          removeImage: function (e) {
+              this.image = '';
           }
       }
     }
