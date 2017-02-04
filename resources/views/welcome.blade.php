@@ -27,7 +27,6 @@
                             <li role="presentation"><router-link to="/login">Login </router-link></li>
                             @endif
                             <li role="presentation"><router-link to="/abouts">About </router-link></li>
-                            <li role="presentation"><router-link to="/rooms">Rooms </router-link> </li>
                         </ul>
                     </div>
                 </div>

@@ -41,6 +41,11 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+\Cloudinary::config(array(
+  "cloud_name" => "dwpkmyedl",
+  "api_key" => "439333714485629",
+  "api_secret" => "dJJjb7RUhddnta7lEgDsvsjsVbM"
+));
 /*
 |--------------------------------------------------------------------------
 | Return The Application

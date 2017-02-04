@@ -19,7 +19,6 @@ import Home from './components/Home.vue'
 import Login from './components/Login.vue'
 import About from './components/About.vue'
 import Dashboard from './components/Dashboard.vue'
-import Room from './components/Room.vue'
 Vue.use(VueRouter)
 // lazy load components
 //const Room = (resolve) => require(['./components/Room.vue'], resolve)
@@ -35,7 +34,6 @@ new Vue({
     Home,
     Login,
     About,
-    Room,
     Dashboard
   },
 
