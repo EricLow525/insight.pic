@@ -17,5 +17,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
+Route::post('/login','Auth\AuthController@postLogin');
 
-
+Route::resource('design', 'DesignController', ['only' => ['index']]);
+Route::post('design','DesignController@index');

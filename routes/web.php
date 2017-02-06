@@ -21,15 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// sample API
-Route::get('/api/rooms',function(){
-    return \App\Room::all();
-});
-Route::post('/api/login','Auth\AuthController@postLogin');
-//Auth::routes();
-
 Route::get('auth/token/{token}', 'Auth\AuthController@authenticate');
-
 Route::get('logout', 'Auth\AuthController@logout');
 /*
 Route::get('dashboard', function () {

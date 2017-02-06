@@ -1,11 +1,9 @@
 <template>
     <div>
         <div class="container">
-          <div class="row">
-                <div>
-                    <h1>Insights.pics Creator</h1>
-                    <p>The first step is to select your Insights colors. Choose your primary color and one or two secondary colors.</p>
-                </div>
+            <div class="row">
+                <h1>Insights.pics Creator</h1>
+                <p>The first step is to select your Insights colors. Choose your primary color and one or two secondary colors.</p>
             </div>
         </div>
         <div>
@@ -13,10 +11,10 @@
             <div class="col-md-4">
                 <h3>Select the design </h3>
                 <div class="row design">
-                    <ul>
+                <!--<ul>
                         <li> <img src="/assets/img/designs/design1.jpg"> </li>
                         <li> <img src="/assets/img/designs/design2.jpg"> </li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
                 <div class="col-md-8">
@@ -116,37 +114,49 @@
 </template>
 
 <script>
-    export default{
-      mounted() {
-          console.log('dashboard')
-      },
+var arr_url;
+export default{
+    mounted() {
+        console.log('dashboard');
+        $.ajax({
+            type:"POST",
+            url: "/api/design",
+            success: function(result){
+                console.log(result[1].id);
+//                arr_url=result;
+    /*            for(var i in arr_url){
+                    console.log(arr_url[i]);
+                }*/
+            }
+        });
+    },
 
-      data : function() {
-          return {
-              image : []
-          }
-      },
+    data : function() {
+        return {
+            image : []
+        }
+    },
 
-      methods : {
-          onFileChange(e){
+    methods : {
+        onFileChange(e){
 
-              var files = e.target.files || e.dataTransfer.files;
-              if (!files.length)
-                  return;
-              this.createImage(files[0]);
-          },
-          createImage(file) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+            this.createImage(files[0]);
+        },
+        createImage(file) {
 
-              var reader = new FileReader();
-              var vm = this;
-              reader.onload = (e) => {
-                  vm.image = e.target.result;
-              };
-              reader.readAsDataURL(file);
-          },
-          removeImage: function (e) {
-              this.image = '';
-          }
-      }
+            var reader = new FileReader();
+            var vm = this;
+            reader.onload = (e) => {
+                vm.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        removeImage: function (e) {
+            this.image = '';
+        }
     }
+}
 </script>

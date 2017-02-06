@@ -13,7 +13,7 @@ class CreateDesignsTable extends Migration
      */
     public function up()
     {
-        Schema::create('designs_table', function (Blueprint $table) {
+        Schema::create('designs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('design_url_id', 50)->index();
             $table->timestamps();
