@@ -11,10 +11,12 @@
             <div class="col-md-4">
                 <h3>Select the design </h3>
                 <div class="row design">
-                <!--<ul>
-                        <li> <img src="/assets/img/designs/design1.jpg"> </li>
-                        <li> <img src="/assets/img/designs/design2.jpg"> </li>
-                    </ul> -->
+                    <ul>
+                        <li v-for="url in url_lists">
+                            <img :src="url">
+                        </li>
+                    </ul>
+
                 </div>
             </div>
                 <div class="col-md-8">
@@ -114,7 +116,7 @@
 </template>
 
 <script>
-var arr_url;
+var arr_url=[];
 export default{
     mounted() {
         console.log('dashboard');
@@ -122,24 +124,25 @@ export default{
             type:"POST",
             url: "/api/design",
             success: function(result){
-                console.log(result[1].id);
-//                arr_url=result;
-    /*            for(var i in arr_url){
-                    console.log(arr_url[i]);
-                }*/
+                console.log(result);
+                for(var i in result){
+                    console.log(result[i].url);
+                    arr_url.push(result[i].url);
+                }
+                console.log(arr_url);
             }
         });
     },
 
     data : function() {
         return {
-            image : []
+            image : [],
+            url_lists : arr_url
         }
     },
 
     methods : {
         onFileChange(e){
-
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length)
                 return;
