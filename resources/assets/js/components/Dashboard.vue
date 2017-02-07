@@ -13,7 +13,7 @@
                 <div class="row design">
                     <ul>
                         <li v-for="url in url_lists">
-                            <img :src="url">
+                            <img :id="url.url_id" @click="select_design" :src="url.url">
                         </li>
                     </ul>
                 </div>
@@ -25,7 +25,7 @@
                                 <h3>Primary Color</h3>
                             </div>
                             <div v-for="color in colors"  class="col-md-2">
-                                <button class="btn" v-bind:style="[color.style]"> {{color.color_name}} </button>
+                                <button class="btn" v-bind:style="[color.style]" @click="pri_color"> {{color.color_name}} </button>
                             </div>
                             <div class="col-md-12">
                                 <div class="row">
@@ -33,7 +33,7 @@
                                         <h3>Secondary Color(s)</h3>
                                     </div>
                                     <div v-for="color in colors"  class="col-md-2">
-                                        <button class="btn" v-bind:style="[color.style]"> {{color.color_name}} </button>
+                                        <button class="btn" v-bind:style="[color.style]" @click="sec_color"> {{color.color_name}} </button>
                                     </div>
                                 </div>
                             </div>
@@ -69,6 +69,7 @@
                                     <div class="dropzone-preview" v-else>
                                         <div>
                                             <img :src="image" />
+                                            <effect></effect>
                                         </div>
                                         <button @click="removeImage">Remove image</button>
                                     </div>
@@ -99,16 +100,33 @@
 </template>
 
 <script>
-var arr_url=[];
+import Effect from './Effect.vue'
 var colors=[];
+var arr_url=[];
 export default{
     mounted() {
+        console.log(colors.length);
         $.ajax({
             type:"POST",
             url: "/api/design",
             success: function(result){
-                for(var i in result){
-                    arr_url.push(result[i].url);
+                if(arr_url.length==0){
+                    for(var i in result){
+                        arr_url.push({
+                            url_id: result[i].id,
+                            url: result[i].url,
+                            info: result[i].info
+                        })
+                    }
+                }else {
+                    arr_url=[];
+                    for(var i in result){
+                        arr_url.push({
+                            url_id: result[i].id,
+                            url: result[i].url,
+                            info: result[i].info
+                        })
+                    }
                 }
             }
         });
@@ -116,14 +134,27 @@ export default{
             type:"POST",
             url:"/api/color",
             success:function(res){
-                for(var j in res){
-                    colors.push({
-                        color_name: res[j].color_name,
-                        style: {
-                            'background-color': res[j].color,
-                            color : 'white'
-                        }
-                    });
+                if(colors.length==0){
+                    for(var j in res){
+                        colors.push({
+                            color_name: res[j].color_name,
+                            style: {
+                                'background-color': res[j].color,
+                                color : 'white'
+                            }
+                        });
+                    }
+                }else{
+                    colors=[];
+                    for(var j in res){
+                        colors.push({
+                            color_name: res[j].color_name,
+                            style: {
+                                'background-color': res[j].color,
+                                color : 'white'
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -136,12 +167,11 @@ export default{
             colors: colors
         }
     },
-
+    components:{
+        'effect':Effect
+    },
     methods : {
         onFileChange(e){
-            this.all_color.forEach(function(colors){
-                console.log(colors);
-            });
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length)
                 return;
@@ -158,6 +188,20 @@ export default{
         },
         removeImage: function (e) {
             this.image = '';
+        },
+        pri_color: function(e){
+            console.log(1);
+        },
+        sec_color: function(e){
+            console.log(2);
+        },
+        select_design:function(e){
+            var count=0;
+            for(var i in this.url_lists){
+                if(e.target.id==this.url_lists[i].url_id){
+                    console.log(this.url_lists[i].info);
+                }
+            }
         }
     }
 }
