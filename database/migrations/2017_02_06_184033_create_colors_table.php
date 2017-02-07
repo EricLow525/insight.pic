@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDesignsTable extends Migration
+class CreateColorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateDesignsTable extends Migration
      */
     public function up()
     {
-        Schema::create('designs', function (Blueprint $table) {
+        Schema::create('colors', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('design_url_id', 50);
-            $table->text('info_design');
+            $table->string('color_name',50);
+            $table->string('color',50);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateDesignsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('designs');
+        Schema::drop('colors');
     }
 }

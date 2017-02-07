@@ -20,4 +20,6 @@ Route::get('/user', function (Request $request) {
 Route::post('/login','Auth\AuthController@postLogin');
 
 Route::resource('design', 'DesignController', ['only' => ['index']]);
+Route::resource('color', 'ColorController', ['only' => ['index']]);
 Route::post('design','DesignController@index');
+Route::post('color','ColorController@index');

@@ -16,7 +16,6 @@
                             <img :src="url">
                         </li>
                     </ul>
-
                 </div>
             </div>
                 <div class="col-md-8">
@@ -25,35 +24,17 @@
                             <div class="col-md-4">
                                 <h3>Primary Color</h3>
                             </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-danger active" type="button"><i class="glyphicon glyphicon-ok"></i> Red </button>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-warning" type="button">Yellow </button>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-success" type="button">Green </button>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-info" type="button">Blue </button>
+                            <div v-for="color in colors"  class="col-md-2">
+                                <button class="btn" v-bind:style="[color.style]"> {{color.color_name}} </button>
                             </div>
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-4">
-                                          <h3>Secondary Color(s)</h3>
-                                      </div>
-                                    <div class="col-md-2">
-                                          <button class="btn btn-danger active" type="button">Red </button>
-                                      </div>
-                                    <div class="col-md-2">
-                                          <button class="btn btn-warning" type="button">Yellow </button>
-                                      </div>
-                                    <div class="col-md-2">
-                                          <button class="btn btn-success active" type="button"><i class="glyphicon glyphicon-ok"></i> Green </button>
-                                      </div>
-                                    <div class="col-md-2">
-                                          <button class="btn btn-info active" type="button"><i class="glyphicon glyphicon-ok"></i>Blue </button>
-                                      </div>
+                                        <h3>Secondary Color(s)</h3>
+                                    </div>
+                                    <div v-for="color in colors"  class="col-md-2">
+                                        <button class="btn" v-bind:style="[color.style]"> {{color.color_name}} </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +67,9 @@
                                         </div>
                                     </div>
                                     <div class="dropzone-preview" v-else>
-                                        <img :src="image" />
+                                        <div>
+                                            <img :src="image" />
+                                        </div>
                                         <button @click="removeImage">Remove image</button>
                                     </div>
                                 </div>
@@ -117,19 +100,31 @@
 
 <script>
 var arr_url=[];
+var colors=[];
 export default{
     mounted() {
-        console.log('dashboard');
         $.ajax({
             type:"POST",
             url: "/api/design",
             success: function(result){
-                console.log(result);
                 for(var i in result){
-                    console.log(result[i].url);
                     arr_url.push(result[i].url);
                 }
-                console.log(arr_url);
+            }
+        });
+        $.ajax({
+            type:"POST",
+            url:"/api/color",
+            success:function(res){
+                for(var j in res){
+                    colors.push({
+                        color_name: res[j].color_name,
+                        style: {
+                            'background-color': res[j].color,
+                            color : 'white'
+                        }
+                    });
+                }
             }
         });
     },
@@ -137,12 +132,16 @@ export default{
     data : function() {
         return {
             image : [],
-            url_lists : arr_url
+            url_lists : arr_url,
+            colors: colors
         }
     },
 
     methods : {
         onFileChange(e){
+            this.all_color.forEach(function(colors){
+                console.log(colors);
+            });
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length)
                 return;
