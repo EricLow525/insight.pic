@@ -22,7 +22,6 @@
                             <li role="active"><router-link to="/">Home </router-link></li>
                             @if(isset($email)>0)
                             <li role="presentation"><router-link to="/dashboard">Dashboard </router-link></li>
-                            <li role="presentation"><router-link to="/logout">Logout </router-link></li>
                             @else
                             <li role="presentation"><router-link to="/login">Login </router-link></li>
                             @endif

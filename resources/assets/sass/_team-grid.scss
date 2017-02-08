@@ -156,28 +156,24 @@
 }
 
 .dropzone-preview {
-    width: 80%;
     position: relative;
     &:hover .dropzone-button {
         display: block;
     }
     img {
-      width: 100%;
-      height: 350px;
-      display: block;
-      max-width: 100%;
-    }
+        display: block;
+     }
 }
 .design {
     width: 80%;
     position: relative;
     list-style: none;
     img {
-      width: 200px;
-      height: 200px;
-      display: block;
-      height: auto;
-      max-width: 100%;
+        width: 200px;
+        height: 200px;
+        display: block;
+        height: auto;
+        max-width: 100%;
     }
 
 }

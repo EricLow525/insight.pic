@@ -12,6 +12,6 @@ class Designs extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'design_url_id',
+        'id', 'design_url_id','info_design',
     ];
 }

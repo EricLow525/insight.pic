@@ -20,25 +20,18 @@ import Login from './components/Login.vue'
 import About from './components/About.vue'
 import Dashboard from './components/Dashboard.vue'
 Vue.use(VueRouter)
-// lazy load components
-//const Room = (resolve) => require(['./components/Room.vue'], resolve)
-//const Home = (resolve) => require(['./components/Home.vue'], resolve)
-// Create and mount root instance.
-// Make sure to inject the router.
-// Route components will be rendered inside <router-view>.
 new Vue({
 
-  router,
+    router,
 
-  components : {
-    Home,
-    Login,
-    About,
-    Dashboard
-  },
+    components : {
+        Home,
+        Login,
+        About,
+        Dashboard
+    },
 
-  data : {
+    data : {
 
-  }
-
+    }
 }).$mount('#app')
