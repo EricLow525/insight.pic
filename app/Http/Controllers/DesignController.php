@@ -20,7 +20,7 @@ class DesignController extends Controller
         foreach($designs as $design){
             $design_url[$design->id]['id']=$design->id;
             $design_url[$design->id]['url']=cloudinary_url($design->design_url_id,$size);
-            $design_url[$design->id]['info']=$design->info_design;
+            $design_url[$design->id]['info']=json_decode($design->info_design,true);
         }
         return response()->json($design_url);
     }

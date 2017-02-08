@@ -70,7 +70,8 @@
                                 <button @click="removeImage">Remove image</button>
                                 <div v-bind:style="imageContainer">
                                     <img :src="image" />
-                                    <effect
+
+                                    <effect v-if="imageWidth!=0"
                                         v-bind:primaryColor="userProfile.priColor.style.backgroundColor"
                                         v-bind:secondaryColor="userProfile.secColor.style.backgroundColor"
                                         v-bind:info="userProfile.design.info"
@@ -80,7 +81,7 @@
                                         v-bind:secondaryText="userProfile.secText"
                                     >
                                     </effect>
-            <!--                        <div v-bind:style="div1Container">
+            <!--                    <div v-bind:style="div1Container">
                                         {{priText}}
                                     </div>
                                     <div v-bind:style="div2Container">
@@ -160,7 +161,7 @@ export default {
             effect: {},
             priText: '',
             secText: '',
-
+            isViewed: false,
             imageWidth: 0,
             imageHeight: 0,
 //            divWidth: 0,
@@ -207,13 +208,15 @@ export default {
     },
     methods: {
         onFileChange(e) {
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length)
-                return;
-            this.createImage(files[0]);
+            this.isViewed = !this.isViewed;
+            if(this.isViewed){
+                var files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            }
         },
         createImage(file) {
-
             var reader = new FileReader();
             var vm = this;
             reader.onload = (e) => {
@@ -231,11 +234,13 @@ export default {
                 }, 10);
             };
             reader.readAsDataURL(file);
+
         },
         removeImage: function(e) {
             this.image = '';
             this.imageWidth = 0;
             this.imageHeight = 0;
+            this.isViewed=false;
 //            this.divWidth=0;
 //            this.divHeight=0;
         },
@@ -244,7 +249,6 @@ export default {
         },
         onSecColorChange: function(color) {
             this.userProfile.secColor = color;
-            console.log(this.userProfile.secColor.style);
         },
         onSelectDesign: function(design) {
             this.userProfile.design = design;
