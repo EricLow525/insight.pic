@@ -7,58 +7,76 @@
         </div>
     </div>
     <div>
-        <div class="row">
-            <div class="col-md-4">
-                <h3>Select the design </h3>
-                <div class="row design">
-                    <ul>
-                        <li v-for="design in designList">
-                            <img @click="onSelectDesign(design)" :src="design.url">
-                        </li>
-                    </ul>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Select the design </h3>
+                    <div class="row design">
+                        <ul style="list-style: none;">
+                            <li style="padding-bottom:3px;" v-for="design in designList">
+                                <img @click="onSelectDesign(design)" :src="design.url">
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-8">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h3>Primary Color</h3>
-                        </div>
-                        <div v-for="color in colors" class="col-md-2">
-                            <button class="btn" v-bind:style="[color.style]" @click="onPriColorChange(color)"> {{color.colorName}} </button>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h3>Secondary Color(s)</h3>
-                                </div>
-                                <div v-for="color in colors" class="col-md-2">
-                                    <button class="btn" v-bind:style="[color.style]" @click="onSecColorChange(color)"> {{color.colorName}} </button>
+                <div class="col-md-8">
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3>Primary Color</h3>
+                            </div>
+                            <div v-for="color in colors" class="col-md-2">
+                                <button class="btn" v-bind:style="[color.style]" @click="onPriColorChange(color)"> {{color.colorName}} </button>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h3>Secondary Color(s)</h3>
+                                    </div>
+                                    <div v-for="color in colors" class="col-md-2">
+                                        <button class="btn" v-bind:style="[color.style]" @click="onSecColorChange(color)"> {{color.colorName}} </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="team-grid">
-                    <div class="container">
-                        <div class="intro"></div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Picture(s) Upload</h4>
-                            <p>The second step is to upload pictures and apply some Insights.pics designs. Then just download and share.</p>
+                    <div class="team-grid">
+                        <div class="container">
+                            <div class="intro"></div>
                         </div>
                     </div>
-                </div>
-                <div class="container">
-                    <section></section>
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div v-if="!image.length">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Picture(s) Upload</h4>
+                                <p>The second step is to upload pictures and apply some Insights.pics designs. Then just download and share.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <section></section>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="inputValue">
+                                <h4>Insights.pics Text:</h4>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><span>Text </span></div>
+                                    <input class="form-control" v-model="priText" type="text">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="button" @click="onPrimaryText">Update </button>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><span>Text </span></div>
+                                    <input class="form-control" v-model="secText" type="text">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="button" @click="onSecondaryText">Update </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom:8px;" class="inputValue" v-if="!image.length">
+                                <p>(The picture area is a dropzone to browse or drag and drop. The right side lets the pick from designs and applies to the image they uploaded.)</p>
                                 <div class="dropzone-area" drag-over="handleDragOver">
                                     <div class="dropzone-text">
                                         <span class="dropzone-title">Drop image here or click to select</span>
@@ -67,45 +85,23 @@
                                 </div>
                             </div>
                             <div class="dropzone-preview" v-else>
-                                <button @click="removeImage">Remove image</button>
-                                <div v-bind:style="imageContainer">
-                                    <img :src="image" />
-
-                                    <effect v-if="imageWidth!=0"
-                                        v-bind:primaryColor="userProfile.priColor.style.backgroundColor"
-                                        v-bind:secondaryColor="userProfile.secColor.style.backgroundColor"
+                                <button style="margin-top:8px;" class="button" @click="removeImage"> <i class="glyphicon glyphicon-remove-sign"></i>Remove image</button>
+                                <div style="margin-top:8px;" v-bind:style="imageContainer">
+                                    <div>
+                                        <img :src="image" />
+                                    </div>
+                                    <effect v-if="imageWidth!=0 "
                                         v-bind:info="userProfile.design.info"
                                         v-bind:imgWidth="imageWidth"
                                         v-bind:imgHeight="imageHeight"
                                         v-bind:primaryText="userProfile.priText"
                                         v-bind:secondaryText="userProfile.secText"
+                                        v-bind:primaryColor="userProfile.priColor.style.backgroundColor"
+                                        v-bind:secondaryColor="userProfile.secColor.style.backgroundColor"
                                     >
                                     </effect>
-            <!--                    <div v-bind:style="div1Container">
-                                        {{priText}}
-                                    </div>
-                                    <div v-bind:style="div2Container">
-                                        {{secText}}
-                                    </div> -->
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <p>(The picture area is a dropzone to browse or drag and drop. The right side lets the pick from designs and applies to the image they uploaded.)</p>
-                            <h4>Insights.pics Text:</h4>
-                            <div class="input-group">
-                                <div class="input-group-addon"><span>Text </span></div>
-                                <input class="form-control" v-model="priText" type="text">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="button" @click="onPrimaryText">Update </button>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <div class="input-group-addon"><span>Text </span></div>
-                                <input class="form-control" v-model="secText" type="text">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="button" @click="onSecondaryText">Update </button>
-                                </div>
+                                <button class="button" @click="downloadImage"> <i class="glyphicon glyphicon-download-alt"></i> Download Insights.pic</button>
                             </div>
                         </div>
                     </div>
@@ -132,6 +128,9 @@ export default {
                         info: result[i].info
                     })
                 }
+                if(!self.userProfile.design){
+                    self.userProfile.design=result[1];
+                }
             }
         });
         $.ajax({
@@ -148,6 +147,12 @@ export default {
                         }
                     });
                 }
+                if(!self.userProfile.priColor){
+                    self.userProfile.priColor=self.colors[0];
+                }
+                if(!self.userProfile.secColor){
+                    self.userProfile.secColor=self.colors[1];
+                }
             }
         });
     },
@@ -161,12 +166,13 @@ export default {
             effect: {},
             priText: '',
             secText: '',
-            isViewed: false,
             imageWidth: 0,
-            imageHeight: 0,
-//            divWidth: 0,
-//            divHeight: 0,
-//            divTop:0,
+            imageHeight: 0
+        }
+    },
+    watch:{
+        userProfile:function(val){
+            console.log(val);
         }
     },
     computed: {
@@ -181,40 +187,16 @@ export default {
                 return {}
             }
         },
-        //"position:absolute; left:0px; top:80%; width:divWidth; height:divHeight; background-color:red;">
-/*        div1Container:function(){
-            return {
-                width: this.divWidth + 'px',
-                height: this.divHeight + 'px',
-                position:'absolute',
-                left: 0,
-                top: this.imageHeight-this.divHeight+'px',
-                backgroundColor:this.effect.priColor
-            }
-        },
-        div2Container:function(){
-            return {
-                width: this.divWidth + 'px',
-                height: this.divHeight + 'px',
-                position:'absolute',
-                left: 0,
-                top: this.imageHeight*0.6+'px',
-                backgroundColor:this.effect.secColor
-            }
-        }*/
     },
     components: {
         'effect': Effect
     },
     methods: {
         onFileChange(e) {
-            this.isViewed = !this.isViewed;
-            if(this.isViewed){
-                var files = e.target.files || e.dataTransfer.files;
-                if (!files.length)
-                    return;
-                this.createImage(files[0]);
-            }
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+            this.createImage(files[0]);
         },
         createImage(file) {
             var reader = new FileReader();
@@ -224,13 +206,6 @@ export default {
                 setTimeout(function() {
                     vm.imageWidth = $(".dropzone-preview img").width();
                     vm.imageHeight = $(".dropzone-preview img").height();
-                    console.log(vm.imageWidth, vm.imageHeight)
-                    // this.userProfile.imageWidth=vm.imageWidth;
-                    // this.userProfile.imageHeight=vm.imageHeight;
-                    // console.log(vm.userProfile.imageWidth, vm.userProfile.imageHeight);
-//                    vm.divWidth=vm.imageWidth;
-//                    vm.divHeight=(vm.imageHeight*0.2);
-//                    console.log(vm.divWidth,vm.divHeight);
                 }, 10);
             };
             reader.readAsDataURL(file);
@@ -240,24 +215,25 @@ export default {
             this.image = '';
             this.imageWidth = 0;
             this.imageHeight = 0;
-            this.isViewed=false;
-//            this.divWidth=0;
-//            this.divHeight=0;
         },
         onPriColorChange: function(color) {
-            this.userProfile.priColor = color;
+            this.userProfile=Object.assign({},this.userProfile,{priColor:color});
         },
         onSecColorChange: function(color) {
-            this.userProfile.secColor = color;
+            this.userProfile=Object.assign({},this.userProfile,{secColor:color});
         },
         onSelectDesign: function(design) {
-            this.userProfile.design = design;
+            this.userProfile=Object.assign({},this.userProfile,{design:design});
         },
         onPrimaryText() {
-            this.userProfile.priText = this.priText;
+            this.userProfile=Object.assign({},this.userProfile,{priText:this.priText});
+
         },
         onSecondaryText() {
-            this.userProfile.secText = this.secText;
+            this.userProfile=Object.assign({},this.userProfile,{secText:this.secText});
+        },
+        downloadImage() {
+
         }
     }
 }

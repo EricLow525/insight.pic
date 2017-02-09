@@ -7877,6 +7877,44 @@ button.close {
   max-width: 100%;
 }
 
+.inputValue {
+  width: 600px;
+}
+
+.form-control {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 60px;
+  margin-bottom: 0;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #0053d1;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {
+  background-color: #3e8e41;
+}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+}
+
 .register-photo {
   background: #f1f7fc;
   padding: 80px 0;

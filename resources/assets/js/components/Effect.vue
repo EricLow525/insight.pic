@@ -18,17 +18,17 @@ export default {
         console.log(this.info[1].top);
         console.log(this.imgWidth);
         console.log(this.imgHeight);
-        console.log(this.primaryText);
-        console.log(this.secondaryText);
+        console.log("primaryText:"+this.primaryText);
+        console.log("secondaryText:"+this.secondaryText);
     },
     props:{
-        primaryColor:String,
-        secondaryColor:String,
         info: Array,
         imgWidth: Number,
         imgHeight: Number,
         primaryText:String,
-        secondaryText:String
+        secondaryText:String,
+        primaryColor:String,
+        secondaryColor:String
     },
     data(){
         return{
