@@ -16,7 +16,7 @@ class DesignController extends Controller
     {
         $design_url = array();
         $designs = Designs::all();
-        $size=array("width" => 100, "height" => 150, "crop" => "fill");
+        $size=array("width" => 60, "height" => 50, "crop" => "fill");
         foreach($designs as $design){
             $design_url[$design->id]['id']=$design->id;
             $design_url[$design->id]['url']=cloudinary_url($design->design_url_id,$size);
