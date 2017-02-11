@@ -14,4 +14,8 @@ class Designs extends Model
     protected $fillable = [
         'id', 'design_url_id','info_design',
     ];
+
+    public static function getDesignInfo($id){
+        return static::find($id);
+    }
 }

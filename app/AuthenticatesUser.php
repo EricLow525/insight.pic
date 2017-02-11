@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Designs;
+use App\Colors;
 class AuthenticatesUser
 {
     use ValidatesRequests;
@@ -69,8 +71,17 @@ class AuthenticatesUser
     {
         $user = User::byEmail($this->request->email);
         if(!$user){
-            User::create(['email'=>$this->request->email]);
-            $user=User::byEmail($this->request->email);
+            $user=User::create(['email'=>$this->request->email]);
+            $user_id=$user->id;
+            $design_id=Designs::orderBy('id', 'asc')->take(1)->first()->id;
+            $colors = Colors::orderBy('id', 'asc')->take(2)->get();
+            $primary_color_id = $colors[0]->id;
+            $secondary_color_id = $colors[1]->id;
+            Profile::create(['user_id'=>$user_id,
+                             'design_id'=>$design_id,
+                             'primary_color_id'=>$primary_color_id,
+                             'secondary_color_id'=>$secondary_color_id
+                            ]);
         }
         return LoginToken::generateFor($user);
     }

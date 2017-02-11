@@ -19,7 +19,7 @@
                     </div>
                     <div class="collapse navbar-collapse" id="navcol-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li role="active"><router-link to="/">Home </router-link></li>
+                            <li class="navbar-font" role="active"><router-link to="/">Home </router-link></li>
                             @if(isset($email)>0)
                             <li role="presentation"><router-link to="/dashboard">Dashboard </router-link></li>
                             @else
@@ -33,6 +33,14 @@
             <router-view></router-view>
     </div>{{-- /container --}}
     <script src="/js/app.js"></script>
+    @if(isset($email)>0)
+    <script>
+        var userId={{$user_id}};
+        console.log(userId);
+        var token="{{$token}}";
+        console.log(token);
+    </script>
+    @endif
     <footer class="site-footer">
         <div class="container">
             <div class="row">

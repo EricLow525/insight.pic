@@ -33,4 +33,7 @@ class User extends Authenticatable
     public function loginTokens(){
         return $this->hasMany('App\LoginToken');
     }
+    public function profile(){
+        return $this->hasOne('App\Profile');
+    }
 }

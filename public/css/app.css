@@ -7873,6 +7873,7 @@ button.close {
   width: 200px;
   height: 200px;
   display: block;
+  cursor: pointer;
   height: auto;
   max-width: 100%;
 }
@@ -8001,28 +8002,32 @@ button.close {
   text-decoration: none;
 }
 
-.navbar {
+#app .navbar {
   margin-bottom: 0;
   border: none;
   background: #252525;
 }
 
-.navbar-brand .glyphicon {
+#app .navbar-brand .glyphicon {
   margin-right: 6px;
 }
 
-.navbar-brand {
+#app .navbar-brand {
   font-size: 15pt;
 }
 
-.navbar-default {
-  background-color: black;
+#app a.navbar-brand.navbar-link {
+  color: #ffffff;
 }
 
-.hero {
+#app .hero {
   background: url(../../assets/img/insights_future.jpg) no-repeat center;
   background-size: cover;
   border: none;
+}
+
+.navbar-font {
+  color: #ffffff;
 }
 
 @media (min-width: 992px) {

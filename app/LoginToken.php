@@ -83,4 +83,8 @@ class LoginToken extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function getTokenUser($insight_token){
+        $tokenUser=static::where('token',$insight_token)->first();
+        return $tokenUser;
+    }
 }

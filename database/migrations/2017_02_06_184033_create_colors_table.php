@@ -17,6 +17,7 @@ class CreateColorsTable extends Migration
             $table->increments('id');
             $table->string('color_name',50);
             $table->string('color',50);
+            $table->double('alpha', 15, 8);
             $table->timestamps();
         });
     }

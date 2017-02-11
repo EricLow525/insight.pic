@@ -14,6 +14,7 @@
 Route::get('/', function () {
     if(Auth::check()){
       return view('welcome',[
+          'user_id'=>Auth::user()->id,
           'email'=>Auth::user()->email,
           'token'=>Auth::user()->loginTokens()->first()->token
       ]);
@@ -23,13 +24,4 @@ Route::get('/', function () {
 
 Route::get('auth/token/{token}', 'Auth\AuthController@authenticate');
 Route::get('logout', 'Auth\AuthController@logout');
-/*
-Route::get('dashboard', function () {
-
-    return view('welcome',[
-        'email'=>Auth::user()->email,
-        'token'=>Auth::user()->loginTokens()->first()->token
-    ]);
-})->middleware('auth');
-*/
 Route::get('/home', 'HomeController@index');
