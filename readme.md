@@ -1,25 +1,24 @@
-#Welcome Aboard !
+# Insight.pic
 
-This starter template is boostrapped with Laravel 5.3, VueJS 2.0, VueRouter,VueResource and so much more !
+Put the power of Insights to work in your organization quickly by using Insights profile pictures.
 
-#Features
+### Tech
 
-- Basic Routing with VueRouter 2.0
-- A VueJS Starter Component
-- Web API call with VueResource
-- List Rendering with VueJS
+Insight.pic uses a number of open source projects to work properly:
 
-#Installation
+* [Vuejs](https://vuejs.org/) - front-end!
+* [Laravel](https://laravel.com) - Back-end Api
 
-- Clone or download the repository
-- Run composer install
-- Run npm install
-- Rename .env.example to .env
-- Change your database credentials on the .env file
-- Run the migrations and add a sample data on your database.
-- Run php artisan serve
-- And you're good to go !
+### Installation
 
-#Support or Contact
+Insight.pic requires [node](https://nodejs.org/) v6.9.4, [php](http://php.net) v7.0.
 
-This project is open for all. Any contributions are so much welcome. Feel free to open a pull request ! Thank you very much.
+Install the dependencies and devDependencies and start the server.
+
+```sh
+$ composer install
+$ npm install
+$ php artisan serve
+$ php artisan migrate
+$ php artisan db:seed
+```
