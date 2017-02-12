@@ -33,7 +33,6 @@
             <router-view></router-view>
     </div>{{-- /container --}}
 
-    <script src="/js/app.js"></script>
     @if(isset($email)>0)
     <script>
         var userId={{$user_id}};
@@ -42,6 +41,7 @@
         console.log(token);
     </script>
     @endif
+    <script src="/js/app.js"></script>
     <footer class="site-footer">
         <div class="container">
             <div class="row">

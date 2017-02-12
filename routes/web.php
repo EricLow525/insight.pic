@@ -11,17 +11,16 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('auth/token/{token}', 'Auth\AuthController@authenticate');
+Route::get('logout', 'Auth\AuthController@logout');
+Route::get('/home', 'HomeController@index');
+
+Route::get('{path}', function () {
     if(Auth::check()){
       return view('welcome',[
           'user_id'=>Auth::user()->id,
           'email'=>Auth::user()->email,
           'token'=>Auth::user()->loginTokens()->first()->token
       ]);
-    }else
-    return view('welcome');
-});
-
-Route::get('auth/token/{token}', 'Auth\AuthController@authenticate');
-Route::get('logout', 'Auth\AuthController@logout');
-Route::get('/home', 'HomeController@index');
+    }else return view('welcome');
+})->where( 'path', '([A-z\d-\/_.]+)?' );

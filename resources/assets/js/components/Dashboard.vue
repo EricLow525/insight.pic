@@ -125,6 +125,7 @@ import html2canvas  from 'html2canvas'
 import Effect from './Effect.vue'
 export default {
     created:function() {
+        console.log('token:'+token);
         var self = this;
         $.ajax({
             type: "GET",
