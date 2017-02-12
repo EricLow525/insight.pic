@@ -32,6 +32,7 @@
             </nav>
             <router-view></router-view>
     </div>{{-- /container --}}
+
     <script src="/js/app.js"></script>
     @if(isset($email)>0)
     <script>

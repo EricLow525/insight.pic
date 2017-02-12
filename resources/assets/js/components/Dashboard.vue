@@ -94,10 +94,8 @@
                             </div>
                             <div class="dropzone-preview" v-else>
                                 <button style="margin-top:8px;" class="button" @click="removeImage"> <i class="glyphicon glyphicon-remove-sign"></i>Remove</button>
-                                <div style="margin-top:8px;" v-bind:style="imageContainer">
-                                    <div>
-                                        <img :src="image" />
-                                    </div>
+                                <div style="margin-top:8px;" v-bind:style="imageContainer" id="image-merge">
+                                    <img :src="image" />
                                     <effect v-if="imageWidth!=0 "
                                         v-bind:info="userProfile.design.info"
                                         v-bind:imgWidth="imageWidth"
@@ -111,7 +109,8 @@
                                     >
                                     </effect>
                                 </div>
-                                <button class="button" @click="downloadImage"> <i class="glyphicon glyphicon-download-alt"></i> Download Insights.pic</button>
+                                <button class="button" @click="downloadCanvas"> <i class="glyphicon glyphicon-download-alt"></i> Download Insights.pic</button>
+                                <a id="downloadable" style="display:none;" download="profile"></a>
                             </div>
                         </div>
                     </div>
@@ -122,6 +121,7 @@
 </template>
 
 <script>
+import html2canvas  from 'html2canvas'
 import Effect from './Effect.vue'
 export default {
     created:function() {
@@ -162,6 +162,8 @@ export default {
                 }
                 self.priText=result['primary_text'];
                 self.secText=result['secondary_text'];
+                self.userProfile.priText=result['primary_text'];
+                self.userProfile.secText=result['secondary_text'];
                 self.loaded=true;
 
             }
@@ -273,7 +275,7 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        alert("Don't save")
+                        console("Don't save")
                     }
                 }
             });
@@ -290,7 +292,7 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        alert("Don't save")
+                        console("Don't save")
                     }
                 }
             });
@@ -307,7 +309,7 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        alert("Don't save")
+                        console("Don't save")
                     }
                 }
             });
@@ -324,7 +326,7 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        alert("Don't save")
+                        console("Don't save")
                     }
                 }
             });
@@ -343,13 +345,21 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        alert("Don't save")
+                        console("Don't save")
                     }
                 }
             });
         },
-        downloadImage() {
+        downloadCanvas(e){
+            html2canvas($('#image-merge'), {
+                onrendered: function (canvas) {
+                    var canvasImg = canvas.toDataURL("image/jpg");
+                    canvasImg = canvasImg.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment');
 
+                    document.getElementById("downloadable").href = canvasImg;
+                    document.getElementById("downloadable").click();
+                }
+            });
         }
     }
 }
