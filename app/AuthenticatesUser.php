@@ -71,7 +71,10 @@ class AuthenticatesUser
     {
         $user = User::byEmail($this->request->email);
         if(!$user){
-            $user=User::create(['email'=>$this->request->email]);
+            $discovery = $this->request->checkVal;
+            $user=User::create(['email'=>$this->request->email,
+                                'discovery'=>$discovery
+                                ]);
             $user_id=$user->id;
             $design_id=Designs::orderBy('id', 'asc')->take(1)->first()->id;
             $colors = Colors::orderBy('id', 'asc')->take(2)->get();
