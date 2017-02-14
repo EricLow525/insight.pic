@@ -20,5 +20,11 @@ $ composer install
 $ npm install
 $ php artisan serve
 $ php artisan migrate
-$ php artisan db:seed
+```
+
+Seed The database:
+
+```sh
+$ php artisan db:seed --class=ColorTableSeeder
+$ php artisan db:seed --class=DesignTableSeeder
 ```
