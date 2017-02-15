@@ -55,7 +55,7 @@ class LoginToken extends Model
             function ($message) {
                 $message->from('dev@starin.biz')
                         ->to($this->user->email)
-                        ->subject('Login to Laracasts');
+                        ->subject('Login to Insight.pic');
             }
         );
     }

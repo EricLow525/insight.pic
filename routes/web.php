@@ -14,7 +14,6 @@
 Route::get('auth/token/{token}', 'Auth\AuthController@authenticate');
 Route::get('logout', 'Auth\AuthController@logout');
 Route::get('/home', 'HomeController@index');
-
 Route::get('{path}', function () {
     if(Auth::check()){
       return view('welcome',[

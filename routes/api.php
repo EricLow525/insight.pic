@@ -18,9 +18,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::post('/login','Auth\AuthController@postLogin');
-
 Route::resource('design', 'DesignController', ['only' => ['index']]);
 Route::resource('color', 'ColorController', ['only' => ['index']]);
 
 Route::get('profile', 'ProfileController@show')->middleware('tokencheck');
 Route::put('profile', 'ProfileController@update')->middleware('tokencheck');
+Route::post('sendmsg','AboutController@sendmsg');

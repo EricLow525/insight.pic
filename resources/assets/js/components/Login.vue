@@ -12,6 +12,7 @@
                 <label>
                     <input type="checkbox" id="discover" v-bind:true-value="1" v-bind:false-value="0">I have been through Insights Discovery
                 </label>
+            </div>
             <div class="form-group"></div>
             <div class="form-group">
                 <button class="btn btn-success btn-block">Request Login Link</button>

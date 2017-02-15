@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Illuminate\Http\Request;
+use App\Http\Requests;
 use App\LoginToken;
 use App\AuthenticatesUser;
 use App\Http\Controllers\Controller;
@@ -64,12 +65,11 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
         // Or put this on AuthenticatesUser, and
         // do $this->auth->logout();
         auth()->logout();
-
         return redirect('/');
     }
 }

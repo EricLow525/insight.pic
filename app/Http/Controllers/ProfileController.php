@@ -36,6 +36,10 @@ class ProfileController extends Controller
         $userProfile['seccolor']=$secColorInfo;
         $userProfile['primary_text']=$profile->primary_text;
         $userProfile['secondary_text']=$profile->secondary_text;
+        $userProfile['primary_font']=$profile->primary_font;
+        $userProfile['primary_fontsize']=$profile->primary_fontsize;
+        $userProfile['secondary_font']=$profile->secondary_font;
+        $userProfile['secondary_fontsize']=$profile->secondary_fontsize;
         return response()->json($userProfile);
     }
 
@@ -43,7 +47,6 @@ class ProfileController extends Controller
         $user_id=$request->get('user_id');
         $user=User::findOrFail($user_id);
         $profile=$user->profile()->first();
-
         $flag=$request->flag;
         switch($flag){
             case 1:
@@ -65,6 +68,22 @@ class ProfileController extends Controller
             case 5:
                 $secondary_color_id=$request->secondary_color_id;
                 $profile->secondary_color_id=$secondary_color_id;
+            break;
+            case 6:
+                $primary_font=$request->primaryfont;
+                $profile->primary_font=$primary_font;
+            break;
+            case 7:
+                $primary_fontsize=$request->primaryfontsize;
+                $profile->primary_fontsize=$primary_fontsize;
+            break;
+            case 8:
+                $secondary_font=$request->secondaryfont;
+                $profile->secondary_font=$secondary_font;
+            break;
+            case 9:
+                $secondary_fontsize=$request->secondaryfontsize;
+                $profile->secondary_fontsize=$secondary_fontsize;
             break;
         }
         $profile->save();

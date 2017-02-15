@@ -73,7 +73,73 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div>
+                                <h4>Insights.pics Fonts & Font Sizes:</h4>
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <p>Primary fonts & font sizes </p>
+                                    </div>
+                                    <div class="col-md-6" style="margin-left:7px">
+                                        <form id="primary_font_style">
+                                            <select id="primaryfont" @change="onChangePriFont">
+                                                <option value="Antiqua">Antiqua</option>
+                                                <option value="SansitaOne">SansitaOne</option>
+                                                <option value="oliver">oliver</option>
+                                                <option value="JuraLight">Jura-Light-webfont</option>
+                                                <option value="Jura">Jura-DemiBold-webfont</option>
+                                                <option value="DJGROSS">DJGROSS-webfont</option>
+                                                <option value="College">College</option>
+                                                <option value="BYekan">BYekan</option>
+                                                <option value="BRoya">BRoya</option>
+                                                <option value="BMitraBold">BMitraBold</option>
+                                                <option value="BMitra">BMitra</option>
+                                            </select>
+                                            <select id="primary_fontsize" @change="onChangePriFontSize">
+                                                <option value="25">25</option>
+                                                <option value="15">15</option>
+                                                <option value="17">17</option>
+                                                <option value="20">20</option>
+                                                <option value="30">30</option>
+                                            </select>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3" style="margin-left:14px">
+                                        <p>Secondary fonts & font sizes </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <form id="secondary_font_style">
+                                            <select id="secondaryfont" @change="onChangeSecFont">
+                                                <option value="Antiqua">Antiqua</option>
+                                                <option value="SansitaOne">SansitaOne</option>
+                                                <option value="oliver">oliver</option>
+                                                <option value="JuraLight">Jura-Light-webfont</option>
+                                                <option value="Jura">Jura-DemiBold-webfont</option>
+                                                <option value="DJGROSS">DJGROSS-webfont</option>
+                                                <option value="College">College</option>
+                                                <option value="BYekan">BYekan</option>
+                                                <option value="BRoya">BRoya</option>
+                                                <option value="BMitraBold">BMitraBold</option>
+                                                <option value="BMitra">BMitra</option>
+                                            </select>
+                                            <select id="secondary_fontsize" @change="onChangeSecFontSize">
+                                                <option value="25">25</option>
+                                                <option value="15">15</option>
+                                                <option value="17">17</option>
+                                                <option value="20">20</option>
+                                                <option value="30">30</option>
+                                            </select>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-3">
+                                    </div>
+                                </div>
+                            </div>
                             <div style="margin-bottom:8px;" class="inputValue" v-if="!image.length">
 
                                 <div class="container">
@@ -106,6 +172,10 @@
                                         v-bind:secondaryColor="userProfile.secColor.style.backgroundColor"
                                         v-bind:primaryColorAlpha="userProfile.priColor.alpha"
                                         v-bind:secondaryColorAlpha="userProfile.secColor.alpha"
+                                        v-bind:primaryFont="userProfile.primaryFont"
+                                        v-bind:primaryFontSize="userProfile.primaryFontSize"
+                                        v-bind:secondaryFont="userProfile.secondaryFont"
+                                        v-bind:secondaryFontSize="userProfile.secondaryFontSize"
                                     >
                                     </effect>
                                 </div>
@@ -125,7 +195,6 @@ import html2canvas  from 'html2canvas'
 import Effect from './Effect.vue'
 export default {
     created:function() {
-        console.log('token:'+token);
         var self = this;
         $.ajax({
             type: "GET",
@@ -165,6 +234,14 @@ export default {
                 self.secText=result['secondary_text'];
                 self.userProfile.priText=result['primary_text'];
                 self.userProfile.secText=result['secondary_text'];
+                self.userProfile.primaryFont=result['primary_font'];
+                self.userProfile.primaryFontSize=result['primary_fontsize'];
+                self.userProfile.secondaryFont=result['secondary_font'];
+                self.userProfile.secondaryFontSize=result['secondary_fontsize'];
+                $('#primaryfont').val(self.userProfile.primaryFont);
+                $('#primary_fontsize').val(self.userProfile.primaryFont);
+                $('#secondaryfont').val(self.userProfile.secondaryFont);
+                $('#secondary_fontsize').val(self.userProfile.secondaryFontSize);
                 self.loaded=true;
 
             }
@@ -217,6 +294,10 @@ export default {
             imageWidth: 0,
             imageHeight: 0,
             flag:0,
+            priFont:'',
+            priFontSize:0,
+            secFont:'',
+            secFontSize:0
         }
     },
     watch:{
@@ -276,7 +357,7 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        console("Don't save")
+                        console("Don't save");
                     }
                 }
             });
@@ -293,7 +374,7 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        console("Don't save")
+                        console("Don't save");
                     }
                 }
             });
@@ -342,6 +423,78 @@ export default {
                 url: "/api/profile",
                 headers:{'insight-auth-token':token},
                 data: {secondaryText:this.userProfile.secText, flag:this.flag},
+                success: function(result){
+                    if(result=='ok'){
+                        console.log('saved');
+                    }else{
+                        console("Don't save")
+                    }
+                }
+            });
+        },
+        onChangePriFont:function(){
+            this.priFont=$('#primaryfont').val();
+            this.userProfile=Object.assign({},this.userProfile,{primaryFont:this.priFont});
+            this.flag=6;
+            $.ajax({
+                type:"PUT",
+                url: "/api/profile",
+                headers:{'insight-auth-token':token},
+                data: {primaryfont:this.userProfile.primaryFont, flag:this.flag},
+                success: function(result){
+                    if(result=='ok'){
+                        console.log('saved');
+                    }else{
+                        console("Don't save")
+                    }
+                }
+            });
+        },
+        onChangePriFontSize:function(){
+            this.priFontSize=$('#primary_fontsize').val();
+            this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:parseInt($('#primary_fontsize').val())});
+            this.flag=7;
+            $.ajax({
+                type:"PUT",
+                url: "/api/profile",
+                headers:{'insight-auth-token':token},
+                data: {primaryfontsize:this.userProfile.primaryFontSize, flag:this.flag},
+                success: function(result){
+                    if(result=='ok'){
+                        console.log('saved');
+                    }else{
+                        console("Don't save")
+                    }
+                }
+            });
+        },
+        onChangeSecFont:function(){
+            this.secFont=$('#secondaryfont').val();
+            this.userProfile=Object.assign({},this.userProfile,{secondaryFont:this.secFont});
+            this.flag=8;
+            $.ajax({
+                type:"PUT",
+                url: "/api/profile",
+                headers:{'insight-auth-token':token},
+                data: {secondaryfont:this.userProfile.secondaryFont, flag:this.flag},
+                success: function(result){
+                    if(result=='ok'){
+                        console.log('saved');
+                    }else{
+                        console("Don't save")
+                    }
+                }
+            });
+        },
+        onChangeSecFontSize:function(){
+            this.secFontSize=$('#secondary_fontsize').val();
+            this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:parseInt($('#secondary_fontsize').val())});
+            this.flag=9;
+            $.ajax({
+                type:"PUT",
+                url: "/api/profile",
+                headers:{'insight-auth-token':token},
+                data: {secondaryfontsize:this.userProfile.secondaryFontSize, flag:this.flag},
                 success: function(result){
                     if(result=='ok'){
                         console.log('saved');

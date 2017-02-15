@@ -13,10 +13,10 @@ import Dashboard from './components/Dashboard.vue'
 export default new VueRouter({
     mode: 'history',
     base: __dirname,
-      routes: [
-        { path: '/', component: Home },
-        { path: '/login', component: Login },
-        { path: '/abouts', component: About },
-        { path: '/dashboard', component: Dashboard }
-      ]
+        routes: [
+            { path: '/', component: Home },
+            { path: '/login', component: Login },
+            { path: '/about', component: About },
+            { path: '/dashboard', component: Dashboard }
+        ]
 });

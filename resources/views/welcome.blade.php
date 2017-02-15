@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js">
     <title>insights.pics</title>
 </head>
 
@@ -22,12 +20,13 @@
                     <div class="collapse navbar-collapse" id="navcol-1">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="navbar-font" role="active"><router-link to="/">Home </router-link></li>
-                            @if(isset($email)>0)
+                            <li role="presentation"><router-link to="/about">About </router-link></li>
+                            @if(isset($email))
                             <li role="presentation"><router-link to="/dashboard">Dashboard </router-link></li>
+                            <li role="presentation"><a href="/logout" style="cursor: pointer;">Logout</a>
                             @else
                             <li role="presentation"><router-link to="/login">Login </router-link></li>
                             @endif
-                            <li role="presentation"><router-link to="/abouts">About </router-link></li>
                         </ul>
                     </div>
                 </div>
@@ -35,12 +34,11 @@
             <router-view></router-view>
     </div>{{-- /container --}}
 
-    @if(isset($email)>0)
+    @if(isset($email))
     <script>
+        var email="{{$email}}";
         var userId={{$user_id}};
-        console.log(userId);
         var token="{{$token}}";
-        console.log(token);
     </script>
     @endif
     <script src="/js/app.js"></script>

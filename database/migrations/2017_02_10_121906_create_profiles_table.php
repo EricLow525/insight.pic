@@ -18,6 +18,10 @@ class CreateProfilesTable extends Migration
             $table->integer('user_id');
             $table->string('primary_text',50)->nullable();
             $table->string('secondary_text',50)->nullable();
+            $table->string('primary_font',50)->nullable();
+            $table->string('secondary_font',50)->nullable();
+            $table->integer('primary_fontsize')->nullable();
+            $table->integer('secondary_fontsize')->nullable();
             $table->integer('design_id')->nullable();
             $table->integer('primary_color_id')->nullable();
             $table->integer('secondary_color_id')->nullable();
