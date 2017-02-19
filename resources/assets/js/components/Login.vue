@@ -43,12 +43,12 @@ import Alert from './Alert.vue'
                 e.preventDefault();
                 var isChecked = $("#discover").prop("checked");
                 if(isChecked==true){
-                    this.discovery=1;
-                }else this.discovery=0;
+                    self.discovery=1;
+                }else self.discovery=0;
                 $.ajax({
                     type:"POST",
                     url: "/api/login",
-                    data: {email:$("#email").val(),checkVal:this.discovery},
+                    data: {email:$("#email").val(),checkVal:self.discovery},
                     success: function(result){
                         self.msg=result;
                         self.flag=1;

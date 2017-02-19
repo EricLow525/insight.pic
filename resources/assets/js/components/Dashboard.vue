@@ -60,18 +60,20 @@
                                 <h4>Insights.pics Text:</h4>
                                 <div class="input-group">
                                     <div class="input-group-addon"><span>Text </span></div>
-                                    <input class="form-control" v-model="priText" type="text">
+                                    <input class="form-control" v-model="priText" type="text" id="priTextInput">
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" type="button" @click="onPrimaryText">Update </button>
                                     </div>
                                 </div>
                                 <div class="input-group">
                                     <div class="input-group-addon"><span>Text </span></div>
-                                    <input class="form-control" v-model="secText" type="text">
+                                    <input class="form-control" v-model="secText" type="text" id="secTextInput">
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" type="button" @click="onSecondaryText">Update </button>
                                     </div>
                                 </div>
+                                <div id="pridiv" v-bind:style="{fontSize:userProfile.primaryFontSize+'px',fontFamily:userProfile.primaryFont}" hidden>{{userProfile.priText}}</div>
+                                <div id="secdiv" v-bind:style="{fontSize:userProfile.secondaryFontSize+'px',fontFamily:userProfile.secondaryFont}" hidden>{{userProfile.secText}}</div>
                             </div>
                             <div>
                                 <h4>Insights.pics Fonts & Font Sizes:</h4>
@@ -81,25 +83,13 @@
                                     </div>
                                     <div class="col-md-6" style="margin-left:7px">
                                         <form id="primary_font_style">
-                                            <select id="primaryfont" @change="onChangePriFont">
-                                                <option value="Antiqua">Antiqua</option>
-                                                <option value="SansitaOne">SansitaOne</option>
-                                                <option value="oliver">oliver</option>
-                                                <option value="JuraLight">Jura-Light-webfont</option>
-                                                <option value="Jura">Jura-DemiBold-webfont</option>
-                                                <option value="DJGROSS">DJGROSS-webfont</option>
-                                                <option value="College">College</option>
-                                                <option value="BYekan">BYekan</option>
-                                                <option value="BRoya">BRoya</option>
-                                                <option value="BMitraBold">BMitraBold</option>
-                                                <option value="BMitra">BMitra</option>
+                                            <select id="primaryfont" v-model="userProfile.primaryFont" @change="onChangePriFont">
+                                                <option value="0"></option>
+                                                <option v-for="font in fontArray" :value="font.value">{{font.fontname}}</option>
                                             </select>
-                                            <select id="primary_fontsize" @change="onChangePriFontSize">
-                                                <option value="25">25</option>
-                                                <option value="15">15</option>
-                                                <option value="17">17</option>
-                                                <option value="20">20</option>
-                                                <option value="30">30</option>
+                                            <select id="primary_fontsize" v-model="userProfile.primaryFontSize" @change="onChangePriFontSize">
+                                                <option value="0"></option>
+                                                <option v-for="size in fontsizeArray" :value="size.value">{{size.Size}}</option>
                                             </select>
                                         </form>
                                     </div>
@@ -114,25 +104,13 @@
                                     </div>
                                     <div class="col-md-6">
                                         <form id="secondary_font_style">
-                                            <select id="secondaryfont" @change="onChangeSecFont">
-                                                <option value="Antiqua">Antiqua</option>
-                                                <option value="SansitaOne">SansitaOne</option>
-                                                <option value="oliver">oliver</option>
-                                                <option value="JuraLight">Jura-Light-webfont</option>
-                                                <option value="Jura">Jura-DemiBold-webfont</option>
-                                                <option value="DJGROSS">DJGROSS-webfont</option>
-                                                <option value="College">College</option>
-                                                <option value="BYekan">BYekan</option>
-                                                <option value="BRoya">BRoya</option>
-                                                <option value="BMitraBold">BMitraBold</option>
-                                                <option value="BMitra">BMitra</option>
+                                            <select id="secondaryfont" v-model="userProfile.secondaryFont" @change="onChangeSecFont">
+                                                <option value=""></option>
+                                                <option v-for="font in fontArray" :value="font.value">{{font.fontname}}</option>
                                             </select>
-                                            <select id="secondary_fontsize" @change="onChangeSecFontSize">
-                                                <option value="25">25</option>
-                                                <option value="15">15</option>
-                                                <option value="17">17</option>
-                                                <option value="20">20</option>
-                                                <option value="30">30</option>
+                                            <select id="secondary_fontsize" v-model="userProfile.secondaryFontSize" @change="onChangeSecFontSize">
+                                                <option value=""></option>
+                                                <option v-for="size in fontsizeArray" :value="size.value">{{size.Size}}</option>
                                             </select>
                                         </form>
                                     </div>
@@ -176,8 +154,12 @@
                                         v-bind:primaryFontSize="userProfile.primaryFontSize"
                                         v-bind:secondaryFont="userProfile.secondaryFont"
                                         v-bind:secondaryFontSize="userProfile.secondaryFontSize"
+                                        v-bind:primaryTextWidth="userProfile.priTextWidth"
+                                        v-bind:secondaryTextWidth="userProfile.secTextWidth"
                                     >
                                     </effect>
+                                </div>
+                                <div id="result">
                                 </div>
                                 <button class="button" @click="downloadCanvas"> <i class="glyphicon glyphicon-download-alt"></i> Download Insights.pic</button>
                                 <a id="downloadable" style="display:none;" download="profile"></a>
@@ -189,7 +171,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import html2canvas  from 'html2canvas'
 import Effect from './Effect.vue'
@@ -201,7 +182,6 @@ export default {
             url: "/api/profile",
             headers:{"insight-auth-token":token},
             success:function(result){
-                console.log(result);
                 if(!self.userProfile.design){
                     self.userProfile.design=result['design_url'];
                 }
@@ -238,12 +218,7 @@ export default {
                 self.userProfile.primaryFontSize=result['primary_fontsize'];
                 self.userProfile.secondaryFont=result['secondary_font'];
                 self.userProfile.secondaryFontSize=result['secondary_fontsize'];
-                $('#primaryfont').val(self.userProfile.primaryFont);
-                $('#primary_fontsize').val(self.userProfile.primaryFont);
-                $('#secondaryfont').val(self.userProfile.secondaryFont);
-                $('#secondary_fontsize').val(self.userProfile.secondaryFontSize);
                 self.loaded=true;
-
             }
         });
         $.ajax({
@@ -276,10 +251,28 @@ export default {
                 }
             }
         });
+        self.fontArray=[{"value":"Roboto","fontname":"Roboto"},
+                        {"value":"Oswald","fontname":"Oswald"},
+                        {"value":"Lobster","fontname":"Lobster"},
+                        {"value":"Anton","fontname":"Anton"},
+                        {"value":"Pacifico","fontname":"Pacifico"},
+                        {"value":"Merriweather","fontname":"Merriweather"},
+                        {"value":"Rokkitt","fontname":"Rokkitt"},
+                        {"value":"Lato","fontname":"Lato"},
+                        {"value":"Montserrat","fontname":"Montserrat"}];
+        self.fontsizeArray=[
+                        {"value":15,"Size":15},
+                        {"value":20,"Size":20},
+                        {"value":25,"Size":25},
+                        {"value":28,"Size":28},
+                        {"value":30,"Size":30},
+                        ];
     },
 
     data: function() {
         return {
+            fontArray:[],
+            fontsizeArray:[],
             loaded:false,
             primaryColorInfo:[],
             secondaryColorInfo:[],
@@ -297,7 +290,9 @@ export default {
             priFont:'',
             priFontSize:0,
             secFont:'',
-            secFontSize:0
+            secFontSize:0,
+            priTextWidth:0,
+            secTextWidth:0,
         }
     },
     watch:{
@@ -316,6 +311,7 @@ export default {
                 return {}
             }
         },
+
     },
     components: {
         'effect': Effect,
@@ -397,6 +393,8 @@ export default {
             });
         },
         onPrimaryText: function() {
+            var ImageWidth=this.imageWidth;
+            var primaryFontSize=this.userProfile.primaryFontSize;
             this.flag=1;
             this.userProfile=Object.assign({},this.userProfile,{priText:this.priText});
             $.ajax({
@@ -412,12 +410,30 @@ export default {
                     }
                 }
             });
-
+            function primaryFontReSize(priTextWidth,imageWidth,fontsize){
+                console.log(priTextWidth);
+                console.log(imageWidth);
+                console.log(fontsize);
+                if(priTextWidth<imageWidth){
+                    return fontsize;
+                }else{
+                    while(priTextWidth<imageWidth){
+                        fontsize=fontsize-1;
+                        console.log(fontsize);
+                    }
+                    return fontsize;
+                }
+            }
+            setTimeout(function() {
+                var self=this;
+                self.priTextWidth=$("#pridiv").width();
+                self.userProfile=Object.assign({},self.userProfile,{priTextWidth:self.priTextWidth});
+                console.log(primaryFontReSize(self.priTextWidth,ImageWidth,primaryFontSize));
+            }, 50);
         },
         onSecondaryText: function() {
             this.flag=2;
             this.userProfile=Object.assign({},this.userProfile,{secText:this.secText});
-            console.log(token);
             $.ajax({
                 type:"PUT",
                 url: "/api/profile",
@@ -431,6 +447,21 @@ export default {
                     }
                 }
             });
+            function secondaryFontReSize(secTextWidth,imageWidth,fontsize){
+                if(secTextWidth<imageWidth){
+                    return fontsize;
+                }else{
+                    while(secTextWidth<imageWidth){
+                        fontsize-=1;
+                    }
+                    return fontsize;
+                }
+            }
+            setTimeout(function() {
+                this.secTextWidth=$("#secdiv").width();
+                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.secTextWidth});
+                secondaryFontReSize(this.secTextWidth,this.imageWidth,this.userProfile.secondaryFontSize);
+            }, 50);
         },
         onChangePriFont:function(){
             this.priFont=$('#primaryfont').val();
@@ -509,7 +540,6 @@ export default {
                 onrendered: function (canvas) {
                     var canvasImg = canvas.toDataURL("image/jpg");
                     canvasImg = canvasImg.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment');
-
                     document.getElementById("downloadable").href = canvasImg;
                     document.getElementById("downloadable").click();
                 }

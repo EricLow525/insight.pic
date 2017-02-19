@@ -28,3 +28,13 @@ Seed The database:
 $ php artisan db:seed --class=ColorTableSeeder
 $ php artisan db:seed --class=DesignTableSeeder
 ```
+
+About .env
+
+You can see .evn.example file in Insight project.
+
+```sh
+SUPPORT_ADDRESS=your@gmail.com
+```
+
+Change the "SUPPORT_ADDRESS"

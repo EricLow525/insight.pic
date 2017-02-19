@@ -1,5 +1,6 @@
 <template>
     <div class="register-photo">
+        <alert v-if="flag==1" v-bind:message="msg"></alert>
         <div class="form-container">
             <div class="image-holder"></div>
             <form method="post" v-on:submit.prevent="SendInfo">
@@ -20,24 +21,33 @@
     </div>
 </template>
 <script>
+    import Alert from './Alert.vue'
     export default{
         mounted(){
 
         },
         data(){
             return {
-                msg:[],
+                msg:'',
+                flag:0
             }
+        },
+        components: {
+            'alert': Alert,
         },
         methods : {
             SendInfo:function(e){
+                var self=this;
                 e.preventDefault();
                 $.ajax({
                     type:'POST',
                     url:'/api/sendmsg',
                     data:{name:$('#name').val(),email:$('#email').val(),message:$('#message').val()},
                     success:function(res){
-                        console.log(res);
+                        if(res=="success"){
+                            self.flag=1;
+                            self.msg="Your mail send successly"
+                        }
                     }
                 });
             }

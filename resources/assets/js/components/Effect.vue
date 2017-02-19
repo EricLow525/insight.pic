@@ -28,7 +28,9 @@ export default {
         primaryFont:String,
         primaryFontSize:Number,
         secondaryFont:String,
-        secondaryFontSize:Number
+        secondaryFontSize:Number,
+        primaryTextWidth:Number,
+        secondaryTextWidth:Number
     },
     data(){
         return{
@@ -37,8 +39,6 @@ export default {
     },
     computed:{
         primaryContainer:function(){
-            console.log(this.primaryFontSize);
-            console.log(this.primaryFont);
             return{
                 width:(this.imgWidth*this.info[0].width)/100+'px',
                 height:(this.imgHeight*this.info[0].height)/100+'px',
@@ -47,14 +47,12 @@ export default {
                 top:(this.imgHeight*this.info[0].top)/100+'px',
                 backgroundColor: this.hexToRgbA(this.primaryColor,this.primaryColorAlpha),
                 'text-align':this.info[0].textalign,
-                color:"white",
-                'font-size':this.primaryFontSize+'px',
-                'font-family':this.primaryFont,
+                color:'white',
+                'fontFamily':this.primaryFont,
+                'fontSize':this.primaryFontSize+'px',
             }
         },
         secondaryContainer:function(){
-            console.log(this.secondaryFontSize);
-            console.log(this.secondaryFont);
             return{
                 width:(this.imgWidth*this.info[1].width)/100+'px',
                 height:(this.imgHeight*this.info[1].height)/100+'px',
@@ -63,9 +61,9 @@ export default {
                 top: (this.imgHeight*this.info[1].top)/100+'px',
                 backgroundColor: this.hexToRgbA(this.secondaryColor,this.secondaryColorAlpha),
                 'text-align':this.info[1].textalign,
-                color:"white",
-                'font-size':this.secondaryFontSize+'px',
-                'font-family':this.secondaryFont,
+                color:'white',
+                'fontFamily':this.secondaryFont,
+                'fontSize':this.secondaryFontSize+'px',
             }
         }
     },
@@ -81,8 +79,11 @@ export default {
                 return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+alpha+')';
             }
             throw new Error('Bad Hex');
-        }
+        },
     }
 
 }
 </script>
+</style>
+
+</style>

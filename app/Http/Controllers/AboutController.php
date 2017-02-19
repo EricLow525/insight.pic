@@ -13,19 +13,17 @@ class AboutController extends Controller
         $name=$request->name;
         $email=$request->email;
         $message=$request->message;
+        $sendemail=env('SUPPORT_ADDRESS');
+        $servername=env('MAIL_USERNAME');
         Mail::raw(
-            "<h2>
-                Submit:
-            </h2>
-            <h6>
+            "Submit:
                 name:{$name},
-                message:{$message}
-            </h6>",
-            function ($message) {
-                    $message->from('dev@starin.biz')
-                        ->to('happinesseric525@gmail.com')
-                        ->subject('okay');
-                }
+                message:{$message}",
+            function ($message)use($servername,$sendemail){
+                $message->from($servername)
+                        ->to($sendemail)
+                        ->subject('Message from Insight.pic');
+            }
         );
         return 'success';
     }
