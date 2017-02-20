@@ -72,7 +72,6 @@
                                         <button class="btn btn-default" type="button" @click="onSecondaryText">Update </button>
                                     </div>
                                 </div>
-                                <div v-bind:style="{fontSize:userProfile.primaryFontSize+'px',fontFamily:userProfile.primaryFont}">{{userProfile.priText}}</div>
                                 <div id="pridiv" v-bind:style="{fontSize:userProfile.primaryFontSize+'px',fontFamily:userProfile.primaryFont}" hidden>{{userProfile.priText}}</div>
                                 <div id="secdiv" v-bind:style="{fontSize:userProfile.secondaryFontSize+'px',fontFamily:userProfile.secondaryFont}" hidden>{{userProfile.secText}}</div>
                             </div>
@@ -331,6 +330,8 @@ export default {
             if (!files.length)
                 return;
             this.createImage(files[0]);
+            this.onPrimaryText();
+            this.onSecondaryText();
         },
         createImage(file) {
             var reader = new FileReader();
@@ -343,7 +344,6 @@ export default {
                 }, 10);
             };
             reader.readAsDataURL(file);
-
         },
         removeImage: function(e) {
             this.image = '';
@@ -423,6 +423,7 @@ export default {
                     self.userProfile=Object.assign({},self.userProfile,{priTextWidth:self.priTextWidth});
                     self.priFontReSize();
                     self.flag=1;
+                    console.log(self.priText);
                     self.userProfile=Object.assign({},self.userProfile,{priText:self.priText});
                     $.ajax({
                         type:"PUT",
@@ -505,10 +506,7 @@ export default {
             if(this.imageWidth){
                 this.priFontSize=$('#primary_fontsize').val();
                 this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:parseInt($('#primary_fontsize').val())});
-                this.priTextWidth=$("#pridiv").width();
-                this.userProfile=Object.assign({},this.userProfile,{priTextWidth:this.priTextWidth});
                 this.flag=7;
-                this.priFontReSize();
                 $.ajax({
                     type:"PUT",
                     url: "/api/profile",
@@ -551,9 +549,6 @@ export default {
             if(this.imageWidth){
                 this.secFontSize=$('#secondary_fontsize').val();
                 this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:parseInt($('#secondary_fontsize').val())});
-                this.secTextWidth=$("#secdiv").width();
-                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.secTextWidth});
-                this.secFontReSize();
                 this.flag=9;
                 $.ajax({
                     type:"PUT",
