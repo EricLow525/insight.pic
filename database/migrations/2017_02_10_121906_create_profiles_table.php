@@ -25,6 +25,8 @@ class CreateProfilesTable extends Migration
             $table->integer('design_id')->nullable();
             $table->integer('primary_color_id')->nullable();
             $table->integer('secondary_color_id')->nullable();
+            $table->double('primary_txtWidth', 15, 8)->nullable();
+            $table->double('secondary_txtWidth', 15, 8)->nullable();
             $table->timestamps();
         });
     }

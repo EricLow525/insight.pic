@@ -12,8 +12,6 @@
 <script>
 export default {
     created(){
-        console.log(this.primaryColor);
-        console.log(this.secondaryColor);
     },
     props:{
         info: Array,
@@ -50,6 +48,8 @@ export default {
                 color:'white',
                 'fontFamily':this.primaryFont,
                 'fontSize':this.primaryFontSize+'px',
+                'display': 'table-cell',
+                'vertical-align': 'middle'
             }
         },
         secondaryContainer:function(){
@@ -64,6 +64,8 @@ export default {
                 color:'white',
                 'fontFamily':this.secondaryFont,
                 'fontSize':this.secondaryFontSize+'px',
+                'display': 'table-cell',
+                'vertical-align': 'middle'
             }
         }
     },
@@ -80,10 +82,7 @@ export default {
             }
             throw new Error('Bad Hex');
         },
-    }
 
+    }
 }
 </script>
-</style>
-
-</style>

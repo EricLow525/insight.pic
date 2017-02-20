@@ -40,6 +40,8 @@ class ProfileController extends Controller
         $userProfile['primary_fontsize']=$profile->primary_fontsize;
         $userProfile['secondary_font']=$profile->secondary_font;
         $userProfile['secondary_fontsize']=$profile->secondary_fontsize;
+        $userProfile['primary_txtWidth']=$profile->primary_txtWidth;
+        $userProfile['secondary_txtWidth']=$profile->secondary_txtWidth;
         return response()->json($userProfile);
     }
 
@@ -51,11 +53,19 @@ class ProfileController extends Controller
         switch($flag){
             case 1:
                 $primaryText=$request->primaryText;
+                $primaryTextWidth=$request->primaryTextWidth;
+                $primary_fontsize=$request->primaryfontsize;
                 $profile->primary_text=$primaryText;
+                $profile->primary_txtWidth=$primaryTextWidth;
+                $profile->primary_fontsize=$primary_fontsize;
             break;
             case 2:
                 $secondaryText=$request->secondaryText;
+                $secondaryTextWidth=$request->secondaryTextWidth;
+                $secondary_fontsize=$request->secondaryfontsize;
                 $profile->secondary_text=$secondaryText;
+                $profile->secondary_txtWidth=$secondaryTextWidth;
+                $profile->secondary_fontsize=$secondary_fontsize;
             break;
             case 3:
                 $design_id=$request->design_id;

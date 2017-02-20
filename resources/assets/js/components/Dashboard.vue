@@ -72,6 +72,7 @@
                                         <button class="btn btn-default" type="button" @click="onSecondaryText">Update </button>
                                     </div>
                                 </div>
+                                <div v-bind:style="{fontSize:userProfile.primaryFontSize+'px',fontFamily:userProfile.primaryFont}">{{userProfile.priText}}</div>
                                 <div id="pridiv" v-bind:style="{fontSize:userProfile.primaryFontSize+'px',fontFamily:userProfile.primaryFont}" hidden>{{userProfile.priText}}</div>
                                 <div id="secdiv" v-bind:style="{fontSize:userProfile.secondaryFontSize+'px',fontFamily:userProfile.secondaryFont}" hidden>{{userProfile.secText}}</div>
                             </div>
@@ -218,6 +219,8 @@ export default {
                 self.userProfile.primaryFontSize=result['primary_fontsize'];
                 self.userProfile.secondaryFont=result['secondary_font'];
                 self.userProfile.secondaryFontSize=result['secondary_fontsize'];
+                self.userProfile.priTextWidth=result['primary_txtWidth'];
+                self.userProfile.secTextWidth=result['secondary_txtWidth'];
                 self.loaded=true;
             }
         });
@@ -256,14 +259,20 @@ export default {
                         {"value":"Lobster","fontname":"Lobster"},
                         {"value":"Anton","fontname":"Anton"},
                         {"value":"Pacifico","fontname":"Pacifico"},
-                        {"value":"Merriweather","fontname":"Merriweather"},
                         {"value":"Rokkitt","fontname":"Rokkitt"},
-                        {"value":"Lato","fontname":"Lato"},
-                        {"value":"Montserrat","fontname":"Montserrat"}];
+                        {"value":"Lato","fontname":"Lato"}];
         self.fontsizeArray=[
-                        {"value":15,"Size":15},
+                        {"value":6,"Size":6},
+                        {"value":8,"Size":8},
+                        {"value":10,"Size":10},
+                        {"value":12,"Size":12},
+                        {"value":14,"Size":14},
+                        {"value":16,"Size":16},
+                        {"value":18,"Size":18},
                         {"value":20,"Size":20},
-                        {"value":25,"Size":25},
+                        {"value":22,"Size":22},
+                        {"value":24,"Size":24},
+                        {"value":26,"Size":26},
                         {"value":28,"Size":28},
                         {"value":30,"Size":30},
                         ];
@@ -353,7 +362,7 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        console("Don't save");
+                        console.log("Don't save");
                     }
                 }
             });
@@ -370,7 +379,7 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        console("Don't save");
+                        console.log("Don't save");
                     }
                 }
             });
@@ -387,153 +396,179 @@ export default {
                     if(result=='ok'){
                         console.log('saved');
                     }else{
-                        console("Don't save")
+                        console.log("Don't save");
                     }
                 }
             });
+        },
+        priFontReSize(){
+            this.userProfile.priTextWidth=$("#pridiv").width();
+            if(this.userProfile.priTextWidth>this.imageWidth){
+                var self=this;
+                setTimeout(function(){
+                    self.userProfile.primaryFontSize-=2;
+                    self.userProfile.priTextWidth=$("#pridiv").width();
+                },10);
+            }else{
+                this.userProfile.priTextWidth=this.userProfile.priTextWidth;
+                this.userProfile.primaryFontSize=this.userProfile.primaryFontSize;
+            }
+            setTimeout(this.priFontReSize,20);
         },
         onPrimaryText: function() {
-            var ImageWidth=this.imageWidth;
-            var primaryFontSize=this.userProfile.primaryFontSize;
-            this.flag=1;
-            this.userProfile=Object.assign({},this.userProfile,{priText:this.priText});
-            $.ajax({
-                type:"PUT",
-                url: "/api/profile",
-                headers:{'insight-auth-token':token},
-                data: {primaryText:this.userProfile.priText,flag:this.flag},
-                success: function(result){
-                    if(result=='ok'){
-                        console.log('saved');
-                    }else{
-                        console("Don't save")
-                    }
-                }
-            });
-            function primaryFontReSize(priTextWidth,imageWidth,fontsize){
-                console.log(priTextWidth);
-                console.log(imageWidth);
-                console.log(fontsize);
-                if(priTextWidth<imageWidth){
-                    return fontsize;
-                }else{
-                    while(priTextWidth<imageWidth){
-                        fontsize=fontsize-1;
-                        console.log(fontsize);
-                    }
-                    return fontsize;
-                }
-            }
-            setTimeout(function() {
+            if(this.imageWidth){
                 var self=this;
-                self.priTextWidth=$("#pridiv").width();
-                self.userProfile=Object.assign({},self.userProfile,{priTextWidth:self.priTextWidth});
-                console.log(primaryFontReSize(self.priTextWidth,ImageWidth,primaryFontSize));
-            }, 50);
+                setTimeout(function() {
+                    self.priTextWidth=$("#pridiv").width();
+                    self.userProfile=Object.assign({},self.userProfile,{priTextWidth:self.priTextWidth});
+                    self.priFontReSize();
+                    self.flag=1;
+                    self.userProfile=Object.assign({},self.userProfile,{priText:self.priText});
+                    $.ajax({
+                        type:"PUT",
+                        url: "/api/profile",
+                        headers:{'insight-auth-token':token},
+                        data: {primaryText:self.userProfile.priText, flag:self.flag, primaryTextWidth:self.userProfile.priTextWidth,primaryfontsize:self.userProfile.primaryFontSize},
+                        success: function(result){
+                            if(result=='ok'){
+                                console.log('saved');
+                            }else{
+                                console.log("Don't save");
+                            }
+                        }
+                    });
+                }, 30);
+            }
+        },
+        secFontReSize(){
+            this.userProfile.secTextWidth=$("#secdiv").width();
+            if(this.userProfile.secTextWidth>this.imageWidth){
+                var self=this;
+                setTimeout(function(){
+                    self.userProfile.secondaryFontSize-=2;
+                    self.userProfile.secTextWidth=$("#secdiv").width();
+                },10);
+            }else{
+                this.userProfile.secondaryFontSize=this.userProfile.secondaryFontSize;
+            }
+            setTimeout(this.secFontReSize,20);
         },
         onSecondaryText: function() {
-            this.flag=2;
-            this.userProfile=Object.assign({},this.userProfile,{secText:this.secText});
-            $.ajax({
-                type:"PUT",
-                url: "/api/profile",
-                headers:{'insight-auth-token':token},
-                data: {secondaryText:this.userProfile.secText, flag:this.flag},
-                success: function(result){
-                    if(result=='ok'){
-                        console.log('saved');
-                    }else{
-                        console("Don't save")
-                    }
-                }
-            });
-            function secondaryFontReSize(secTextWidth,imageWidth,fontsize){
-                if(secTextWidth<imageWidth){
-                    return fontsize;
-                }else{
-                    while(secTextWidth<imageWidth){
-                        fontsize-=1;
-                    }
-                    return fontsize;
-                }
+            if(this.imageWidth){
+                var self=this;
+                setTimeout(function() {
+                    self.flag=2;
+                    self.userProfile=Object.assign({},self.userProfile,{secText:self.secText});
+                    self.secTextWidth=$("#secdiv").width();
+                    self.userProfile=Object.assign({},self.userProfile,{secTextWidth:self.secTextWidth});
+                    self.secFontReSize();
+                    $.ajax({
+                        type:"PUT",
+                        url: "/api/profile",
+                        headers:{'insight-auth-token':token},
+                        data: {secondaryText:self.userProfile.secText, flag:self.flag,secondaryTextWidth:self.userProfile.secTextWidth,secondaryfontsize:self.userProfile.secondaryFontSize},
+                        success: function(result){
+                            if(result=='ok'){
+                                console.log('saved');
+                            }else{
+                                console.log("Don't save");
+                            }
+                        }
+                    });
+                }, 30);
             }
-            setTimeout(function() {
-                this.secTextWidth=$("#secdiv").width();
-                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.secTextWidth});
-                secondaryFontReSize(this.secTextWidth,this.imageWidth,this.userProfile.secondaryFontSize);
-            }, 50);
         },
         onChangePriFont:function(){
-            this.priFont=$('#primaryfont').val();
-            this.userProfile=Object.assign({},this.userProfile,{primaryFont:this.priFont});
-            this.flag=6;
-            $.ajax({
-                type:"PUT",
-                url: "/api/profile",
-                headers:{'insight-auth-token':token},
-                data: {primaryfont:this.userProfile.primaryFont, flag:this.flag},
-                success: function(result){
-                    if(result=='ok'){
-                        console.log('saved');
-                    }else{
-                        console("Don't save")
+            if(this.imageWidth){
+                this.priFont=$('#primaryfont').val();
+                this.userProfile=Object.assign({},this.userProfile,{primaryFont:this.priFont});
+                this.priTextWidth=$("#pridiv").width();
+                this.userProfile=Object.assign({},this.userProfile,{priTextWidth:this.priTextWidth});
+                this.priFontReSize();
+                this.flag=6;
+                $.ajax({
+                    type:"PUT",
+                    url: "/api/profile",
+                    headers:{'insight-auth-token':token},
+                    data: {primaryfont:this.userProfile.primaryFont, flag:this.flag},
+                    success: function(result){
+                        if(result=='ok'){
+                            console.log('saved');
+                        }else{
+                            console.log("Don't save");
+                        }
                     }
-                }
-            });
+                });
+            }
         },
         onChangePriFontSize:function(){
-            this.priFontSize=$('#primary_fontsize').val();
-            this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:parseInt($('#primary_fontsize').val())});
-            this.flag=7;
-            $.ajax({
-                type:"PUT",
-                url: "/api/profile",
-                headers:{'insight-auth-token':token},
-                data: {primaryfontsize:this.userProfile.primaryFontSize, flag:this.flag},
-                success: function(result){
-                    if(result=='ok'){
-                        console.log('saved');
-                    }else{
-                        console("Don't save")
+            if(this.imageWidth){
+                this.priFontSize=$('#primary_fontsize').val();
+                this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:parseInt($('#primary_fontsize').val())});
+                this.priTextWidth=$("#pridiv").width();
+                this.userProfile=Object.assign({},this.userProfile,{priTextWidth:this.priTextWidth});
+                this.flag=7;
+                this.priFontReSize();
+                $.ajax({
+                    type:"PUT",
+                    url: "/api/profile",
+                    headers:{'insight-auth-token':token},
+                    data: {primaryfontsize:this.userProfile.primaryFontSize, flag:this.flag},
+                    success: function(result){
+                        if(result=='ok'){
+                            console.log('saved');
+                        }else{
+                            console.log("Don't save");
+                        }
                     }
-                }
-            });
+                });
+            }
         },
         onChangeSecFont:function(){
-            this.secFont=$('#secondaryfont').val();
-            this.userProfile=Object.assign({},this.userProfile,{secondaryFont:this.secFont});
-            this.flag=8;
-            $.ajax({
-                type:"PUT",
-                url: "/api/profile",
-                headers:{'insight-auth-token':token},
-                data: {secondaryfont:this.userProfile.secondaryFont, flag:this.flag},
-                success: function(result){
-                    if(result=='ok'){
-                        console.log('saved');
-                    }else{
-                        console("Don't save")
+            if(this.imageWidth){
+                this.secFont=$('#secondaryfont').val();
+                this.userProfile=Object.assign({},this.userProfile,{secondaryFont:this.secFont});
+                this.secTextWidth=$("#secdiv").width();
+                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.secTextWidth});
+                this.flag=8;
+                this.secFontReSize();
+                $.ajax({
+                    type:"PUT",
+                    url: "/api/profile",
+                    headers:{'insight-auth-token':token},
+                    data: {secondaryfont:this.userProfile.secondaryFont, flag:this.flag},
+                    success: function(result){
+                        if(result=='ok'){
+                            console.log('saved');
+                        }else{
+                            console.log("Don't save");
+                        }
                     }
-                }
-            });
+                });
+            }
         },
         onChangeSecFontSize:function(){
-            this.secFontSize=$('#secondary_fontsize').val();
-            this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:parseInt($('#secondary_fontsize').val())});
-            this.flag=9;
-            $.ajax({
-                type:"PUT",
-                url: "/api/profile",
-                headers:{'insight-auth-token':token},
-                data: {secondaryfontsize:this.userProfile.secondaryFontSize, flag:this.flag},
-                success: function(result){
-                    if(result=='ok'){
-                        console.log('saved');
-                    }else{
-                        console("Don't save")
+            if(this.imageWidth){
+                this.secFontSize=$('#secondary_fontsize').val();
+                this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:parseInt($('#secondary_fontsize').val())});
+                this.secTextWidth=$("#secdiv").width();
+                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.secTextWidth});
+                this.secFontReSize();
+                this.flag=9;
+                $.ajax({
+                    type:"PUT",
+                    url: "/api/profile",
+                    headers:{'insight-auth-token':token},
+                    data: {secondaryfontsize:this.userProfile.secondaryFontSize, flag:this.flag},
+                    success: function(result){
+                        if(result=='ok'){
+                            console.log('saved');
+                        }else{
+                            console.log("Don't save");
+                        }
                     }
-                }
-            });
+                });
+            }
         },
         downloadCanvas(e){
             html2canvas($('#image-merge'), {
