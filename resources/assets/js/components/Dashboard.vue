@@ -301,6 +301,7 @@ export default {
             secFontSize:0,
             priTextWidth:0,
             secTextWidth:0,
+            state:0
         }
     },
     watch:{
@@ -402,96 +403,24 @@ export default {
             });
         },
         priFontReSize(){
+            this.userProfile=Object.assign({},this.userProfile,{priText:this.priText});
             this.userProfile.priTextWidth=$("#pridiv").width();
+            console.log(this.userProfile.priTextWidth);
             if(this.userProfile.priTextWidth>this.imageWidth){
+                this.userProfile.primaryFontSize-=2;
+                this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:this.userProfile.primaryFontSize});
                 var self=this;
-                setTimeout(function(){
-                    self.userProfile.primaryFontSize-=2;
-                    self.userProfile.priTextWidth=$("#pridiv").width();
-                },10);
+                setTimeout(self.priFontReSize,10);
             }else{
-                this.userProfile.priTextWidth=this.userProfile.priTextWidth;
                 this.userProfile.primaryFontSize=this.userProfile.primaryFontSize;
-            }
-            setTimeout(this.priFontReSize,20);
-        },
-        onPrimaryText: function() {
-            if(this.imageWidth){
-                var self=this;
-                setTimeout(function() {
-                    self.priTextWidth=$("#pridiv").width();
-                    self.userProfile=Object.assign({},self.userProfile,{priTextWidth:self.priTextWidth});
-                    self.priFontReSize();
-                    self.flag=1;
-                    console.log(self.priText);
-                    self.userProfile=Object.assign({},self.userProfile,{priText:self.priText});
-                    $.ajax({
-                        type:"PUT",
-                        url: "/api/profile",
-                        headers:{'insight-auth-token':token},
-                        data: {primaryText:self.userProfile.priText, flag:self.flag, primaryTextWidth:self.userProfile.priTextWidth,primaryfontsize:self.userProfile.primaryFontSize},
-                        success: function(result){
-                            if(result=='ok'){
-                                console.log('saved');
-                            }else{
-                                console.log("Don't save");
-                            }
-                        }
-                    });
-                }, 30);
-            }
-        },
-        secFontReSize(){
-            this.userProfile.secTextWidth=$("#secdiv").width();
-            if(this.userProfile.secTextWidth>this.imageWidth){
-                var self=this;
-                setTimeout(function(){
-                    self.userProfile.secondaryFontSize-=2;
-                    self.userProfile.secTextWidth=$("#secdiv").width();
-                },10);
-            }else{
-                this.userProfile.secondaryFontSize=this.userProfile.secondaryFontSize;
-            }
-            setTimeout(this.secFontReSize,20);
-        },
-        onSecondaryText: function() {
-            if(this.imageWidth){
-                var self=this;
-                setTimeout(function() {
-                    self.flag=2;
-                    self.userProfile=Object.assign({},self.userProfile,{secText:self.secText});
-                    self.secTextWidth=$("#secdiv").width();
-                    self.userProfile=Object.assign({},self.userProfile,{secTextWidth:self.secTextWidth});
-                    self.secFontReSize();
-                    $.ajax({
-                        type:"PUT",
-                        url: "/api/profile",
-                        headers:{'insight-auth-token':token},
-                        data: {secondaryText:self.userProfile.secText, flag:self.flag,secondaryTextWidth:self.userProfile.secTextWidth,secondaryfontsize:self.userProfile.secondaryFontSize},
-                        success: function(result){
-                            if(result=='ok'){
-                                console.log('saved');
-                            }else{
-                                console.log("Don't save");
-                            }
-                        }
-                    });
-                }, 30);
-            }
-        },
-        onChangePriFont:function(){
-            if(this.imageWidth){
-                this.priFont=$('#primaryfont').val();
-                this.userProfile=Object.assign({},this.userProfile,{primaryFont:this.priFont});
-                this.priTextWidth=$("#pridiv").width();
                 this.userProfile=Object.assign({},this.userProfile,{priTextWidth:this.priTextWidth});
-                this.priFontReSize();
-                this.flag=6;
+                this.flag=1;
+                this.userProfile=Object.assign({},this.userProfile,{priText:this.priText});
                 $.ajax({
                     type:"PUT",
                     url: "/api/profile",
                     headers:{'insight-auth-token':token},
-                    data: {primaryfont:this.userProfile.primaryFont, flag:this.flag},
+                    data: {primaryText:this.userProfile.priText, flag:this.flag, primaryTextWidth:this.userProfile.priTextWidth,primaryfontsize:this.userProfile.primaryFontSize},
                     success: function(result){
                         if(result=='ok'){
                             console.log('saved');
@@ -502,8 +431,124 @@ export default {
                 });
             }
         },
-        onChangePriFontSize:function(){
+        onPrimaryText: function() {
+            this.userProfile=Object.assign({},this.userProfile,{priText:this.priText});
+            this.userProfile.priTextWidth=$("#pridiv").width();
+            var self=this;
             if(this.imageWidth){
+                setTimeout(self.priFontReSize,10);
+            }
+        },
+        secFontReSize(){
+            this.userProfile.secTextWidth=$("#secdiv").width();
+            if(this.userProfile.secTextWidth>this.imageWidth){
+                this.userProfile.secondaryFontSize-=2;
+                this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:this.userProfile.secondaryFontSize});
+                setTimeout(this.secFontReSize,10);
+            }else{
+                this.userProfile.secondaryFontSize=this.userProfile.secondaryFontSize;
+                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.secTextWidth});
+                this.flag=2;
+                this.userProfile=Object.assign({},this.userProfile,{secText:this.secText});
+                $.ajax({
+                    type:"PUT",
+                    url: "/api/profile",
+                    headers:{'insight-auth-token':token},
+                    data: {secondaryText:this.userProfile.secText, flag:this.flag,secondaryTextWidth:this.userProfile.secTextWidth,secondaryfontsize:this.userProfile.secondaryFontSize},
+                    success: function(result){
+                        if(result=='ok'){
+                            console.log('saved');
+                        }else{
+                            console.log("Don't save");
+                        }
+                    }
+                });
+            }
+        },
+        onSecondaryText: function() {
+            this.userProfile=Object.assign({},this.userProfile,{secText:this.secText});
+            this.userProfile.secTextWidth=$("#secdiv").width();
+            var self=this;
+            if(this.imageWidth){
+                setTimeout(self.secFontReSize,10);
+            }
+        },
+        /**/
+        priChangeFont(){
+            this.userProfile.priTextWidth=$("#pridiv").width();
+            if(this.userProfile.priTextWidth>this.imageWidth){
+                this.userProfile.primaryFontSize-=2;
+                this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:this.userProfile.primaryFontSize});
+                setTimeout(this.priChangeFont,10);
+            }else{
+                this.userProfile.primaryFontSize=this.userProfile.primaryFontSize;
+                this.priFont=$('#primaryfont').val();
+                this.userProfile=Object.assign({},this.userProfile,{primaryFont:this.priFont});
+                this.flag=6;
+                $.ajax({
+                    type:"PUT",
+                    url: "/api/profile",
+                    headers:{'insight-auth-token':token},
+                    data: {primaryfont:this.userProfile.primaryFont, flag:this.flag, primaryfontsize:this.userProfile.primaryFontSize},
+                    success: function(result){
+                        if(result=='ok'){
+                            console.log('saved');
+                        }else{
+                            console.log("Don't save");
+                        }
+                    }
+                });
+            }
+        },
+        onChangePriFont:function(){
+            this.userProfile.priTextWidth=$("#pridiv").width();
+            if(this.imageWidth){
+                var self=this;
+                setTimeout(self.priChangeFont,10);
+            }
+        },
+        secChangeFont(){
+            this.userProfile.secTextWidth=$("#secdiv").width();
+            if(this.userProfile.secTextWidth>this.imageWidth){
+                this.userProfile.secondaryFontSize-=2;
+                this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:this.userProfile.secondaryFontSize});
+                setTimeout(this.secChangeFont,10);
+            }else{
+                this.userProfile.secondaryFontSize=this.userProfile.secondaryFontSize;
+                this.secFont=$('#secondaryfont').val();
+                console.log(this.secFont);
+                this.userProfile=Object.assign({},this.userProfile,{secondaryFont:this.secFont});
+                this.flag=8;
+                $.ajax({
+                    type:"PUT",
+                    url: "/api/profile",
+                    headers:{'insight-auth-token':token},
+                    data: {secondaryfont:this.userProfile.secondaryFont, flag:this.flag},
+                    success: function(result){
+                        if(result=='ok'){
+                            console.log('saved');
+                        }else{
+                            console.log("Don't save");
+                        }
+                    }
+                });
+            }
+        },
+        onChangeSecFont:function(){
+            this.userProfile.secTextWidth=$("#secdiv").width();
+            if(this.imageWidth){
+                var self=this;
+                setTimeout(self.secChangeFont,10);
+            }
+        },
+        priChangeFontSize(){
+            this.userProfile.priTextWidth=$("#pridiv").width();
+            if(this.userProfile.priTextWidth>this.imageWidth){
+                this.userProfile.primaryFontSize-=2;
+                this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:this.userProfile.primaryFontSize});
+                setTimeout(this.priChangeFontSize,10);
+            }else{
+                this.userProfile.primaryFontSize=this.userProfile.primaryFontSize;
                 this.priFontSize=$('#primary_fontsize').val();
                 this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:parseInt($('#primary_fontsize').val())});
                 this.flag=7;
@@ -522,31 +567,21 @@ export default {
                 });
             }
         },
-        onChangeSecFont:function(){
+        onChangePriFontSize:function(){
+            this.userProfile.priTextWidth=$("#pridiv").width();
             if(this.imageWidth){
-                this.secFont=$('#secondaryfont').val();
-                this.userProfile=Object.assign({},this.userProfile,{secondaryFont:this.secFont});
-                this.secTextWidth=$("#secdiv").width();
-                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.secTextWidth});
-                this.flag=8;
-                this.secFontReSize();
-                $.ajax({
-                    type:"PUT",
-                    url: "/api/profile",
-                    headers:{'insight-auth-token':token},
-                    data: {secondaryfont:this.userProfile.secondaryFont, flag:this.flag},
-                    success: function(result){
-                        if(result=='ok'){
-                            console.log('saved');
-                        }else{
-                            console.log("Don't save");
-                        }
-                    }
-                });
+                var self=this;
+                setTimeout(self.priChangeFontSize,10);
             }
         },
-        onChangeSecFontSize:function(){
-            if(this.imageWidth){
+        secChangeFontSize(){
+            this.userProfile.secTextWidth=$("#secdiv").width();
+            if(this.userProfile.secTextWidth>this.imageWidth){
+                this.userProfile.secondaryFontSize-=2;
+                this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:this.userProfile.secondaryFontSize});
+                setTimeout(this.secChangeFontSize,10);
+            }else{
+                this.userProfile.secondaryFontSize=this.userProfile.secondaryFontSize;
                 this.secFontSize=$('#secondary_fontsize').val();
                 this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:parseInt($('#secondary_fontsize').val())});
                 this.flag=9;
@@ -563,6 +598,13 @@ export default {
                         }
                     }
                 });
+            }
+        },
+        onChangeSecFontSize:function(){
+            this.userProfile.priTextWidth=$("#secdiv").width();
+            if(this.imageWidth){
+                var self=this;
+                setTimeout(self.secChangeFontSize,10);
             }
         },
         downloadCanvas(e){

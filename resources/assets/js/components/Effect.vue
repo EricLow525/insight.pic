@@ -1,10 +1,10 @@
 <template>
     <div>
         <div v-bind:style="primaryContainer">
-            {{primaryText}}
+            <p v-bind:style="textContainer">{{primaryText}}</p>
         </div>
         <div v-bind:style="secondaryContainer">
-            {{secondaryText}}
+            <p v-bind:style="textContainer">{{secondaryText}}</p>
         </div>
     </div>
 </template>
@@ -66,6 +66,13 @@ export default {
                 'fontSize':this.secondaryFontSize+'px',
                 'display': 'table-cell',
                 'vertical-align': 'middle'
+            }
+        },
+        textContainer:function(){
+            return {
+                'position': 'relative',
+                'top': '50%',
+                'transform': 'translateY(-50%)'
             }
         }
     },

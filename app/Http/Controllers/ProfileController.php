@@ -80,6 +80,8 @@ class ProfileController extends Controller
                 $profile->secondary_color_id=$secondary_color_id;
             break;
             case 6:
+                $primary_fontsize=$request->primaryfontsize;
+                $profile->primary_fontsize=$primary_fontsize;
                 $primary_font=$request->primaryfont;
                 $profile->primary_font=$primary_font;
             break;
@@ -88,6 +90,8 @@ class ProfileController extends Controller
                 $profile->primary_fontsize=$primary_fontsize;
             break;
             case 8:
+                $secondary_fontsize=$request->secondaryfontsize;
+                $profile->secondary_fontsize=$secondary_fontsize;
                 $secondary_font=$request->secondaryfont;
                 $profile->secondary_font=$secondary_font;
             break;
