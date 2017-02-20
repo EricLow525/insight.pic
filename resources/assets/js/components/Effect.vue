@@ -1,10 +1,10 @@
 <template>
     <div>
         <div v-bind:style="primaryContainer">
-            <p v-bind:style="textContainer">{{primaryText}}</p>
+            <span v-bind:style="textContainer">{{primaryText}}</span>
         </div>
         <div v-bind:style="secondaryContainer">
-            <p v-bind:style="textContainer">{{secondaryText}}</p>
+            <span v-bind:style="textContainer">{{secondaryText}}</span>
         </div>
     </div>
 </template>
@@ -49,7 +49,10 @@ export default {
                 'fontFamily':this.primaryFont,
                 'fontSize':this.primaryFontSize+'px',
                 'display': 'table-cell',
-                'vertical-align': 'middle'
+                'vertical-align': 'middle',
+                'display': 'flex',
+                'justify-content': 'center',
+                'align-items': 'center'
             }
         },
         secondaryContainer:function(){
@@ -65,14 +68,16 @@ export default {
                 'fontFamily':this.secondaryFont,
                 'fontSize':this.secondaryFontSize+'px',
                 'display': 'table-cell',
-                'vertical-align': 'middle'
+                'vertical-align': 'middle',
+                'display': 'flex',
+                'justify-content': 'center',
+                'align-items': 'center'
             }
         },
         textContainer:function(){
             return {
                 'position': 'relative',
-                'top': '50%',
-                'transform': 'translateY(-50%)'
+                'margin':'auto'
             }
         }
     },

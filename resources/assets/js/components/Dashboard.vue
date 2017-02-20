@@ -72,6 +72,7 @@
                                         <button class="btn btn-default" type="button" @click="onSecondaryText">Update </button>
                                     </div>
                                 </div>
+                                <div class="preview"></div>
                                 <div id="pridiv" v-bind:style="{fontSize:userProfile.primaryFontSize+'px',fontFamily:userProfile.primaryFont}" hidden>{{userProfile.priText}}</div>
                                 <div id="secdiv" v-bind:style="{fontSize:userProfile.secondaryFontSize+'px',fontFamily:userProfile.secondaryFont}" hidden>{{userProfile.secText}}</div>
                             </div>
@@ -158,8 +159,6 @@
                                         v-bind:secondaryTextWidth="userProfile.secTextWidth"
                                     >
                                     </effect>
-                                </div>
-                                <div id="result">
                                 </div>
                                 <button class="button" @click="downloadCanvas"> <i class="glyphicon glyphicon-download-alt"></i> Download Insights.pic</button>
                                 <a id="downloadable" style="display:none;" download="profile"></a>
@@ -473,12 +472,13 @@ export default {
                 setTimeout(self.secFontReSize,10);
             }
         },
-        /**/
+
         priChangeFont(){
             this.userProfile.priTextWidth=$("#pridiv").width();
             if(this.userProfile.priTextWidth>this.imageWidth){
                 this.userProfile.primaryFontSize-=2;
                 this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:this.userProfile.primaryFontSize});
+                console.log(this.userProfile.primaryFontSize);
                 setTimeout(this.priChangeFont,10);
             }else{
                 this.userProfile.primaryFontSize=this.userProfile.primaryFontSize;
@@ -502,8 +502,8 @@ export default {
         },
         onChangePriFont:function(){
             this.userProfile.priTextWidth=$("#pridiv").width();
+            var self=this;
             if(this.imageWidth){
-                var self=this;
                 setTimeout(self.priChangeFont,10);
             }
         },
@@ -512,6 +512,7 @@ export default {
             if(this.userProfile.secTextWidth>this.imageWidth){
                 this.userProfile.secondaryFontSize-=2;
                 this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:this.userProfile.secondaryFontSize});
+                console.log(this.userProfile.secondaryFontSize);
                 setTimeout(this.secChangeFont,10);
             }else{
                 this.userProfile.secondaryFontSize=this.userProfile.secondaryFontSize;
@@ -536,8 +537,8 @@ export default {
         },
         onChangeSecFont:function(){
             this.userProfile.secTextWidth=$("#secdiv").width();
+            var self=this;
             if(this.imageWidth){
-                var self=this;
                 setTimeout(self.secChangeFont,10);
             }
         },
@@ -569,8 +570,8 @@ export default {
         },
         onChangePriFontSize:function(){
             this.userProfile.priTextWidth=$("#pridiv").width();
+            var self=this;
             if(this.imageWidth){
-                var self=this;
                 setTimeout(self.priChangeFontSize,10);
             }
         },
@@ -602,13 +603,14 @@ export default {
         },
         onChangeSecFontSize:function(){
             this.userProfile.priTextWidth=$("#secdiv").width();
+            var self=this;
             if(this.imageWidth){
-                var self=this;
                 setTimeout(self.secChangeFontSize,10);
             }
         },
         downloadCanvas(e){
             html2canvas($('#image-merge'), {
+                letterRendering:true,
                 onrendered: function (canvas) {
                     var canvasImg = canvas.toDataURL("image/jpg");
                     canvasImg = canvasImg.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment');
