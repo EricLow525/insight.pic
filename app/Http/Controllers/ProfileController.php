@@ -17,7 +17,8 @@ class ProfileController extends Controller
     * @return Response
     */
 
-    public function show(Request $request){
+    public function show(Request $request)
+    {
         $userProfile=array();
         $design_url=array();
         $user_id=$request->get('user_id');
@@ -51,20 +52,35 @@ class ProfileController extends Controller
         return response()->json($userProfile);
     }
     /**
-     *Save the dashboard info in Profile Database.
-     *
+     * Save the dashboard info in Profile Database.
      *  Columns:primaryText, secondaryText, primaryColor primaryId, secondaryColorDatabase primaryId, DesignDatabase primaryId, primaryfont, primaryfontSize, secondaryfont, secondaryfontSize, primaryTextWidth, secondaryTextWidth
-     *
-     * @return status;
+     * @param \Illuminate\Http\Request  $request
+     * Data: flag, DesignId,userId, primaryText, primaryTextWidth,primaryColorId,primaryFont,primaryFontSize, secondaryText, secondaryTextWidth,secondaryColorId,secondaryFont,secondaryFontSize,
+     * @param description:
+     * About flag:
+     *      case 1: Save value of primaryText,primaryFontSize, primaryFontWidth
+     *      case 2: Save value of secondaryText,secondaryFontSize, secondaryFontWidth
+     *      case 3: Save the designId
+     *      case 4: Save the primaryColorId
+     *      case 5: save the secondaryColorId
+     *      case 6: save primaryTextWidth,primaryfont,primaryfontSize
+     *      case 7: save secondaryTextWidth,secondaryfont,secondaryfontSize
+     *      case 8: save primaryTextWidth,primaryfontSize
+     *      case 9: save secondaryTextWidth,secondaryfontSize
+     * userId:
+     *      UserId obtained from CheckUserToken middleware using the token
+     * Get the userInfo in UserDatabase using userId
+     * @return status
     */
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         $user_id=$request->get('user_id');
         $user=User::findOrFail($user_id);
         $profile=$user->profile()->first();
         $flag=$request->flag;
         switch($flag){
-            case 1: //Save value of primaryText,primaryFontSize, primaryFontWidth;
+            case 1:
                 $primaryText=$request->primaryText;
                 $primaryTextWidth=$request->primaryTextWidth;
                 $primary_fontsize=$request->primaryfontsize;
@@ -72,7 +88,7 @@ class ProfileController extends Controller
                 $profile->primary_txtWidth=$primaryTextWidth;
                 $profile->primary_fontsize=$primary_fontsize;
                 break;
-            case 2: //Save value of secondaryText,secondaryFontSize, secondaryFontWidth;
+            case 2:
                 $secondaryText=$request->secondaryText;
                 $secondaryTextWidth=$request->secondaryTextWidth;
                 $secondary_fontsize=$request->secondaryfontsize;
