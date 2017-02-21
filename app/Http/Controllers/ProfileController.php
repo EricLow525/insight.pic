@@ -14,6 +14,9 @@ class ProfileController extends Controller
     /**
     * A function that sends the value from the database to vuejs when the page is first reloaded or loaded.
     * @param  \Illuminate\Http\Request  $request
+    * About userId:
+    *      UserId obtained from CheckUserToken middleware using the token
+    * Get the profileInfo in ProfileDatabase using userId
     * @return Response
     */
 
@@ -67,9 +70,9 @@ class ProfileController extends Controller
      *      case 7: save secondaryTextWidth,secondaryfont,secondaryfontSize
      *      case 8: save primaryTextWidth,primaryfontSize
      *      case 9: save secondaryTextWidth,secondaryfontSize
-     * userId:
+     * About userId:
      *      UserId obtained from CheckUserToken middleware using the token
-     * Get the userInfo in UserDatabase using userId
+     * Get the profileInfo in ProfileDatabase using userId
      * @return status
     */
 
