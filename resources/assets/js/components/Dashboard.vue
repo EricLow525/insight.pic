@@ -6,6 +6,8 @@
             <p>The first step is to select your Insights colors. Choose your primary color and one or two secondary colors.</p>
         </div>
     </div>
+    <div id="pridiv" v-bind:style="{fontSize:userProfile.primaryFontSize+'px',fontFamily:userProfile.primaryFont}" hidden>{{userProfile.priText}}</div>
+    <div id="secdiv" v-bind:style="{fontSize:userProfile.secondaryFontSize+'px',fontFamily:userProfile.secondaryFont}" hidden>{{userProfile.secText}}</div>
     <div>
         <div class="container" v-if="loaded">
             <div class="row">
@@ -73,8 +75,6 @@
                                     </div>
                                 </div>
                                 <div class="preview"></div>
-                                <div id="pridiv" v-bind:style="{fontSize:userProfile.primaryFontSize+'px',fontFamily:userProfile.primaryFont}" hidden>{{userProfile.priText}}</div>
-                                <div id="secdiv" v-bind:style="{fontSize:userProfile.secondaryFontSize+'px',fontFamily:userProfile.secondaryFont}" hidden>{{userProfile.secText}}</div>
                             </div>
                             <div>
                                 <h4>Insights.pics Fonts & Font Sizes:</h4>
@@ -330,8 +330,6 @@ export default {
             if (!files.length)
                 return;
             this.createImage(files[0]);
-            this.onPrimaryText();
-            this.onSecondaryText();
         },
         createImage(file) {
             var reader = new FileReader();
@@ -341,6 +339,18 @@ export default {
                 setTimeout(function() {
                     vm.imageWidth = $(".dropzone-preview img").width();
                     vm.imageHeight = $(".dropzone-preview img").height();
+                    setTimeout(function(){
+                        vm.userProfile=Object.assign({},vm.userProfile,{priTextWidth:vm.userProfile.priTextWidth});
+                        vm.userProfile=Object.assign({},vm.userProfile,{secTextWidth:vm.userProfile.secTextWidth});
+                        console.log(vm.imageWidth);
+                        console.log(vm.userProfile.priTextWidth);
+                        if(vm.userProfile.priTextWidth>vm.imageWidth || vm.userProfile.secTextWidth>vm.imageWidth){
+                            vm.onPrimaryText();
+                            vm.onSecondaryText();
+                            vm.userProfile.priTextWidth=0;
+                            vm.userProfile.secTextWidth=0;
+                        }
+                    },10);
                 }, 10);
             };
             reader.readAsDataURL(file);
@@ -408,13 +418,15 @@ export default {
             if(this.userProfile.priTextWidth>this.imageWidth){
                 this.userProfile.primaryFontSize-=2;
                 this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:this.userProfile.primaryFontSize});
+                console.log(this.userProfile.priTextWidth);
                 var self=this;
                 setTimeout(self.priFontReSize,10);
             }else{
                 this.userProfile.primaryFontSize=this.userProfile.primaryFontSize;
-                this.userProfile=Object.assign({},this.userProfile,{priTextWidth:this.priTextWidth});
                 this.flag=1;
                 this.userProfile=Object.assign({},this.userProfile,{priText:this.priText});
+                this.userProfile=Object.assign({},this.userProfile,{priTextWidth:this.userProfile.priTextWidth});
+                console.log(this.userProfile.priTextWidth);
                 $.ajax({
                     type:"PUT",
                     url: "/api/profile",
@@ -446,9 +458,9 @@ export default {
                 setTimeout(this.secFontReSize,10);
             }else{
                 this.userProfile.secondaryFontSize=this.userProfile.secondaryFontSize;
-                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.secTextWidth});
                 this.flag=2;
                 this.userProfile=Object.assign({},this.userProfile,{secText:this.secText});
+                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.userProfile.secTextWidth});
                 $.ajax({
                     type:"PUT",
                     url: "/api/profile",
@@ -474,22 +486,23 @@ export default {
         },
 
         priChangeFont(){
+            this.userProfile=Object.assign({},this.userProfile,{priText:this.priText});
             this.userProfile.priTextWidth=$("#pridiv").width();
             if(this.userProfile.priTextWidth>this.imageWidth){
                 this.userProfile.primaryFontSize-=2;
                 this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:this.userProfile.primaryFontSize});
-                console.log(this.userProfile.primaryFontSize);
                 setTimeout(this.priChangeFont,10);
             }else{
                 this.userProfile.primaryFontSize=this.userProfile.primaryFontSize;
                 this.priFont=$('#primaryfont').val();
                 this.userProfile=Object.assign({},this.userProfile,{primaryFont:this.priFont});
+                this.userProfile=Object.assign({},this.userProfile,{priTextWidth:this.userProfile.priTextWidth});
                 this.flag=6;
                 $.ajax({
                     type:"PUT",
                     url: "/api/profile",
                     headers:{'insight-auth-token':token},
-                    data: {primaryfont:this.userProfile.primaryFont, flag:this.flag, primaryfontsize:this.userProfile.primaryFontSize},
+                    data: {primaryfont:this.userProfile.primaryFont, flag:this.flag, primaryfontsize:this.userProfile.primaryFontSize, primaryTextWidth:this.userProfile.priTextWidth},
                     success: function(result){
                         if(result=='ok'){
                             console.log('saved');
@@ -512,19 +525,18 @@ export default {
             if(this.userProfile.secTextWidth>this.imageWidth){
                 this.userProfile.secondaryFontSize-=2;
                 this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:this.userProfile.secondaryFontSize});
-                console.log(this.userProfile.secondaryFontSize);
                 setTimeout(this.secChangeFont,10);
             }else{
                 this.userProfile.secondaryFontSize=this.userProfile.secondaryFontSize;
                 this.secFont=$('#secondaryfont').val();
-                console.log(this.secFont);
                 this.userProfile=Object.assign({},this.userProfile,{secondaryFont:this.secFont});
+                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.userProfile.secTextWidth});
                 this.flag=8;
                 $.ajax({
                     type:"PUT",
                     url: "/api/profile",
                     headers:{'insight-auth-token':token},
-                    data: {secondaryfont:this.userProfile.secondaryFont, flag:this.flag},
+                    data: {secondaryfont:this.userProfile.secondaryFont, flag:this.flag, secondaryTextWidth:this.userProfile.secTextWidth, secondaryfontsize:this.userProfile.secondaryFontSize},
                     success: function(result){
                         if(result=='ok'){
                             console.log('saved');
@@ -552,12 +564,13 @@ export default {
                 this.userProfile.primaryFontSize=this.userProfile.primaryFontSize;
                 this.priFontSize=$('#primary_fontsize').val();
                 this.userProfile=Object.assign({},this.userProfile,{primaryFontSize:parseInt($('#primary_fontsize').val())});
+                this.userProfile=Object.assign({},this.userProfile,{priTextWidth:this.userProfile.priTextWidth});
                 this.flag=7;
                 $.ajax({
                     type:"PUT",
                     url: "/api/profile",
                     headers:{'insight-auth-token':token},
-                    data: {primaryfontsize:this.userProfile.primaryFontSize, flag:this.flag},
+                    data: {primaryfontsize:this.userProfile.primaryFontSize, flag:this.flag, primaryTextWidth:this.userProfile.priTextWidth},
                     success: function(result){
                         if(result=='ok'){
                             console.log('saved');
@@ -585,12 +598,13 @@ export default {
                 this.userProfile.secondaryFontSize=this.userProfile.secondaryFontSize;
                 this.secFontSize=$('#secondary_fontsize').val();
                 this.userProfile=Object.assign({},this.userProfile,{secondaryFontSize:parseInt($('#secondary_fontsize').val())});
+                this.userProfile=Object.assign({},this.userProfile,{secTextWidth:this.userProfile.secTextWidth});
                 this.flag=9;
                 $.ajax({
                     type:"PUT",
                     url: "/api/profile",
                     headers:{'insight-auth-token':token},
-                    data: {secondaryfontsize:this.userProfile.secondaryFontSize, flag:this.flag},
+                    data: {secondaryfontsize:this.userProfile.secondaryFontSize, flag:this.flag, secondaryTextWidth:this.userProfile.secTextWidth},
                     success: function(result){
                         if(result=='ok'){
                             console.log('saved');

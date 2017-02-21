@@ -81,23 +81,32 @@ class ProfileController extends Controller
             break;
             case 6:
                 $primary_fontsize=$request->primaryfontsize;
-                $profile->primary_fontsize=$primary_fontsize;
                 $primary_font=$request->primaryfont;
+                $primaryTextWidth=$request->primaryTextWidth;
+                $profile->primary_fontsize=$primary_fontsize;
                 $profile->primary_font=$primary_font;
+                $profile->primary_txtWidth=$primaryTextWidth;
             break;
             case 7:
                 $primary_fontsize=$request->primaryfontsize;
+                $primaryTextWidth=$request->primaryTextWidth;
                 $profile->primary_fontsize=$primary_fontsize;
+                $profile->primary_txtWidth=$primaryTextWidth;
+
             break;
             case 8:
                 $secondary_fontsize=$request->secondaryfontsize;
-                $profile->secondary_fontsize=$secondary_fontsize;
                 $secondary_font=$request->secondaryfont;
+                $secondaryTextWidth=$request->secondaryTextWidth;
+                $profile->secondary_fontsize=$secondary_fontsize;
                 $profile->secondary_font=$secondary_font;
+                $profile->secondary_txtWidth=$secondaryTextWidth;
             break;
             case 9:
                 $secondary_fontsize=$request->secondaryfontsize;
+                $secondaryTextWidth=$request->secondaryTextWidth;
                 $profile->secondary_fontsize=$secondary_fontsize;
+                $profile->secondary_txtWidth=$secondaryTextWidth;
             break;
         }
         $profile->save();
