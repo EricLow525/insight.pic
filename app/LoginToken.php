@@ -76,7 +76,7 @@ class LoginToken extends Model
      * @return LoginToken Object
      */
     public function getTokenUser($insight_token){
-        $tokenUser=static::where('token',$insight_token)->first();
+        $tokenUser = static::where('token',$insight_token)->first();
         return $tokenUser;
     }
 }
