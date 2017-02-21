@@ -11,6 +11,12 @@ use App\Designs;
 use App\Colors;
 class ProfileController extends Controller
 {
+    /**
+    * A function that sends the value from the database to vuejs when the page is first reloaded or loaded.
+    * @param  \Illuminate\Http\Request  $request
+    * @return Response
+    */
+
     public function show(Request $request){
         $userProfile=array();
         $design_url=array();
@@ -44,6 +50,13 @@ class ProfileController extends Controller
         $userProfile['secondary_txtWidth']=$profile->secondary_txtWidth;
         return response()->json($userProfile);
     }
+    /**
+     *Save the dashboard info in Profile Database.
+     *
+     *  Columns:primaryText, secondaryText, primaryColor primaryId, secondaryColorDatabase primaryId, DesignDatabase primaryId, primaryfont, primaryfontSize, secondaryfont, secondaryfontSize, primaryTextWidth, secondaryTextWidth
+     *
+     * @return status;
+    */
 
     public function update(Request $request){
         $user_id=$request->get('user_id');
@@ -51,34 +64,34 @@ class ProfileController extends Controller
         $profile=$user->profile()->first();
         $flag=$request->flag;
         switch($flag){
-            case 1:
+            case 1: //Save value of primaryText,primaryFontSize, primaryFontWidth;
                 $primaryText=$request->primaryText;
                 $primaryTextWidth=$request->primaryTextWidth;
                 $primary_fontsize=$request->primaryfontsize;
                 $profile->primary_text=$primaryText;
                 $profile->primary_txtWidth=$primaryTextWidth;
                 $profile->primary_fontsize=$primary_fontsize;
-            break;
-            case 2:
+                break;
+            case 2: //Save value of secondaryText,secondaryFontSize, secondaryFontWidth;
                 $secondaryText=$request->secondaryText;
                 $secondaryTextWidth=$request->secondaryTextWidth;
                 $secondary_fontsize=$request->secondaryfontsize;
                 $profile->secondary_text=$secondaryText;
                 $profile->secondary_txtWidth=$secondaryTextWidth;
                 $profile->secondary_fontsize=$secondary_fontsize;
-            break;
+                break;
             case 3:
                 $design_id=$request->design_id;
                 $profile->design_id=$design_id;
-            break;
+                break;
             case 4:
                 $primary_color_id=$request->primary_color_id;
                 $profile->primary_color_id=$primary_color_id;
-            break;
+                break;
             case 5:
                 $secondary_color_id=$request->secondary_color_id;
                 $profile->secondary_color_id=$secondary_color_id;
-            break;
+                break;
             case 6:
                 $primary_fontsize=$request->primaryfontsize;
                 $primary_font=$request->primaryfont;
@@ -86,14 +99,13 @@ class ProfileController extends Controller
                 $profile->primary_fontsize=$primary_fontsize;
                 $profile->primary_font=$primary_font;
                 $profile->primary_txtWidth=$primaryTextWidth;
-            break;
+                break;
             case 7:
                 $primary_fontsize=$request->primaryfontsize;
                 $primaryTextWidth=$request->primaryTextWidth;
                 $profile->primary_fontsize=$primary_fontsize;
                 $profile->primary_txtWidth=$primaryTextWidth;
-
-            break;
+                break;
             case 8:
                 $secondary_fontsize=$request->secondaryfontsize;
                 $secondary_font=$request->secondaryfont;
@@ -101,13 +113,16 @@ class ProfileController extends Controller
                 $profile->secondary_fontsize=$secondary_fontsize;
                 $profile->secondary_font=$secondary_font;
                 $profile->secondary_txtWidth=$secondaryTextWidth;
-            break;
+                break;
             case 9:
                 $secondary_fontsize=$request->secondaryfontsize;
                 $secondaryTextWidth=$request->secondaryTextWidth;
                 $profile->secondary_fontsize=$secondary_fontsize;
                 $profile->secondary_txtWidth=$secondaryTextWidth;
-            break;
+                break;
+            default:
+                echo 'Default case';
+                break;
         }
         $profile->save();
         return 'ok';

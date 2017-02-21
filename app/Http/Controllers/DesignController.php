@@ -9,8 +9,10 @@ class DesignController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * The data is retrieved from the DesignDatabase and the result is an object.
+     * Convert Object to Array.
      * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {

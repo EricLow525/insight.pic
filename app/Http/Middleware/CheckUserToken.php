@@ -9,6 +9,7 @@ class CheckUserToken
     /**
      * Handle an incoming request.
      *
+     * Sends a token as a header to the back-end from the front-end and get the userInfo using token
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed

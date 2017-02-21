@@ -69,6 +69,12 @@ class LoginToken extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get userInfo from token in the LoginToken Database.
+     * @param  string $insight_token
+     * @return LoginToken Object
+     */
     public function getTokenUser($insight_token){
         $tokenUser=static::where('token',$insight_token)->first();
         return $tokenUser;
